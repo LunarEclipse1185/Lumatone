@@ -1,5 +1,7 @@
 #  Todo & Outline
 
+! this file does not conform to Markdown format and is used by me as plain text file
+! viewing this file as Markdown will cause confusion
 
 ##  Guideline: 
      features first, then appearance
