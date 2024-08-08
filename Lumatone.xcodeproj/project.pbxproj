@@ -1,0 +1,507 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F70964442C1DDD5C00B3BEAD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70964432C1DDD5C00B3BEAD /* AppDelegate.swift */; };
+		F70964462C1DDD5C00B3BEAD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70964452C1DDD5C00B3BEAD /* SceneDelegate.swift */; };
+		F70964482C1DDD5C00B3BEAD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70964472C1DDD5C00B3BEAD /* ViewController.swift */; };
+		F709644B2C1DDD5C00B3BEAD /* Base in Resources */ = {isa = PBXBuildFile; fileRef = F709644A2C1DDD5C00B3BEAD /* Base */; };
+		F709644E2C1DDD5C00B3BEAD /* Lumatone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F709644C2C1DDD5C00B3BEAD /* Lumatone.xcdatamodeld */; };
+		F70964502C1DDD5E00B3BEAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F709644F2C1DDD5E00B3BEAD /* Assets.xcassets */; };
+		F70964532C1DDD5E00B3BEAD /* Base in Resources */ = {isa = PBXBuildFile; fileRef = F70964522C1DDD5E00B3BEAD /* Base */; };
+		F709647B2C1ED30F00B3BEAD /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = F709647A2C1ED30F00B3BEAD /* Key.swift */; };
+		F74AD8BB2C2F002C00C2AD02 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74AD8BA2C2F002C00C2AD02 /* Utils.swift */; };
+		F74AD8BF2C31657300C2AD02 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74AD8BE2C31657300C2AD02 /* KeyboardLayout.swift */; };
+		F7869D752C6372E000D80482 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7869D742C6372E000D80482 /* Globals.swift */; };
+		F7B4FFB02C43CC9300BAD4C3 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B4FFAF2C43CC9000BAD4C3 /* Preview.swift */; };
+		F7E3C1B92C208C9400DDD1CB /* YamahaGrand.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */; };
+		F7E3C1BF2C2130A600DDD1CB /* SoundfontChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1BE2C2130A600DDD1CB /* SoundfontChooser.swift */; };
+		F7E3C1C82C21312100DDD1CB /* LockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1C72C21312100DDD1CB /* LockButton.swift */; };
+		F7E3C1CE2C21315900DDD1CB /* KeymapPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1CD2C21315900DDD1CB /* KeymapPicker.swift */; };
+		F7E3C1F42C21C11900DDD1CB /* Keymap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F32C21C11900DDD1CB /* Keymap.swift */; };
+		F7E3C1F62C21C13C00DDD1CB /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F52C21C13C00DDD1CB /* Preset.swift */; };
+		F7E3C1F82C21CF5000DDD1CB /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F72C21CF5000DDD1CB /* Keyboard.swift */; };
+		F7E3C1FA2C21DB3C00DDD1CB /* ControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F92C21DB3C00DDD1CB /* ControlPanel.swift */; };
+		F7E3C21C2C21E59C00DDD1CB /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C21B2C21E59C00DDD1CB /* AudioEngine.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F7E3C1E92C215B0700DDD1CB /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F7089DCC2C2D6E4000006849 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
+		F70964402C1DDD5C00B3BEAD /* Lumatone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumatone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F70964432C1DDD5C00B3BEAD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F70964452C1DDD5C00B3BEAD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		F70964472C1DDD5C00B3BEAD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F709644A2C1DDD5C00B3BEAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F709644D2C1DDD5C00B3BEAD /* Lumatone.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Lumatone.xcdatamodel; sourceTree = "<group>"; };
+		F709644F2C1DDD5E00B3BEAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F70964522C1DDD5E00B3BEAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F70964542C1DDD5E00B3BEAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F709647A2C1ED30F00B3BEAD /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		F74AD8BA2C2F002C00C2AD02 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		F74AD8BE2C31657300C2AD02 /* KeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayout.swift; sourceTree = "<group>"; };
+		F7869D742C6372E000D80482 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		F7B4FFAF2C43CC9000BAD4C3 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
+		F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = YamahaGrand.sf2; sourceTree = "<group>"; };
+		F7E3C1BE2C2130A600DDD1CB /* SoundfontChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundfontChooser.swift; sourceTree = "<group>"; };
+		F7E3C1C72C21312100DDD1CB /* LockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockButton.swift; sourceTree = "<group>"; };
+		F7E3C1CD2C21315900DDD1CB /* KeymapPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapPicker.swift; sourceTree = "<group>"; };
+		F7E3C1F32C21C11900DDD1CB /* Keymap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keymap.swift; sourceTree = "<group>"; };
+		F7E3C1F52C21C13C00DDD1CB /* Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preset.swift; sourceTree = "<group>"; };
+		F7E3C1F72C21CF5000DDD1CB /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
+		F7E3C1F92C21DB3C00DDD1CB /* ControlPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanel.swift; sourceTree = "<group>"; };
+		F7E3C21B2C21E59C00DDD1CB /* AudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F709643D2C1DDD5C00B3BEAD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F70964372C1DDD5C00B3BEAD = {
+			isa = PBXGroup;
+			children = (
+				F7089DCC2C2D6E4000006849 /* TODO.md */,
+				F7E3C1B72C208C9400DDD1CB /* Resources */,
+				F70964422C1DDD5C00B3BEAD /* Lumatone */,
+				F70964412C1DDD5C00B3BEAD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F70964412C1DDD5C00B3BEAD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F70964402C1DDD5C00B3BEAD /* Lumatone.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F70964422C1DDD5C00B3BEAD /* Lumatone */ = {
+			isa = PBXGroup;
+			children = (
+				F7B4FFAF2C43CC9000BAD4C3 /* Preview.swift */,
+				F70964432C1DDD5C00B3BEAD /* AppDelegate.swift */,
+				F70964452C1DDD5C00B3BEAD /* SceneDelegate.swift */,
+				F74AD8B92C2F000F00C2AD02 /* Global */,
+				F70964772C1ED2A700B3BEAD /* Keyboard */,
+				F7E3C1C42C2130E200DDD1CB /* Controls */,
+				F70964512C1DDD5E00B3BEAD /* LaunchScreen.storyboard */,
+				F70964492C1DDD5C00B3BEAD /* Main.storyboard */,
+				F709644F2C1DDD5E00B3BEAD /* Assets.xcassets */,
+				F70964542C1DDD5E00B3BEAD /* Info.plist */,
+				F709644C2C1DDD5C00B3BEAD /* Lumatone.xcdatamodeld */,
+			);
+			path = Lumatone;
+			sourceTree = "<group>";
+		};
+		F70964772C1ED2A700B3BEAD /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				F7E3C1F72C21CF5000DDD1CB /* Keyboard.swift */,
+				F709647A2C1ED30F00B3BEAD /* Key.swift */,
+				F7E3C1C72C21312100DDD1CB /* LockButton.swift */,
+			);
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
+		F74AD8B92C2F000F00C2AD02 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				F70964472C1DDD5C00B3BEAD /* ViewController.swift */,
+				F7E3C21B2C21E59C00DDD1CB /* AudioEngine.swift */,
+				F74AD8BA2C2F002C00C2AD02 /* Utils.swift */,
+				F7869D742C6372E000D80482 /* Globals.swift */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		F7E3C1B72C208C9400DDD1CB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F7E3C1C42C2130E200DDD1CB /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				F7E3C1F92C21DB3C00DDD1CB /* ControlPanel.swift */,
+				F7E3C1BE2C2130A600DDD1CB /* SoundfontChooser.swift */,
+				F7E3C1F52C21C13C00DDD1CB /* Preset.swift */,
+				F7E3C1CD2C21315900DDD1CB /* KeymapPicker.swift */,
+				F7E3C1F32C21C11900DDD1CB /* Keymap.swift */,
+				F74AD8BE2C31657300C2AD02 /* KeyboardLayout.swift */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F709643F2C1DDD5C00B3BEAD /* Lumatone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F709646D2C1DDD5E00B3BEAD /* Build configuration list for PBXNativeTarget "Lumatone" */;
+			buildPhases = (
+				F709643C2C1DDD5C00B3BEAD /* Sources */,
+				F709643D2C1DDD5C00B3BEAD /* Frameworks */,
+				F709643E2C1DDD5C00B3BEAD /* Resources */,
+				F7E3C1E92C215B0700DDD1CB /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Lumatone;
+			packageProductDependencies = (
+			);
+			productName = Lumatone;
+			productReference = F70964402C1DDD5C00B3BEAD /* Lumatone.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F70964382C1DDD5C00B3BEAD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					F709643F2C1DDD5C00B3BEAD = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = F709643B2C1DDD5C00B3BEAD /* Build configuration list for PBXProject "Lumatone" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F70964372C1DDD5C00B3BEAD;
+			packageReferences = (
+			);
+			productRefGroup = F70964412C1DDD5C00B3BEAD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F709643F2C1DDD5C00B3BEAD /* Lumatone */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F709643E2C1DDD5C00B3BEAD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F70964502C1DDD5E00B3BEAD /* Assets.xcassets in Resources */,
+				F7E3C1B92C208C9400DDD1CB /* YamahaGrand.sf2 in Resources */,
+				F70964532C1DDD5E00B3BEAD /* Base in Resources */,
+				F709644B2C1DDD5C00B3BEAD /* Base in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F709643C2C1DDD5C00B3BEAD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7E3C21C2C21E59C00DDD1CB /* AudioEngine.swift in Sources */,
+				F7E3C1CE2C21315900DDD1CB /* KeymapPicker.swift in Sources */,
+				F7B4FFB02C43CC9300BAD4C3 /* Preview.swift in Sources */,
+				F7E3C1F62C21C13C00DDD1CB /* Preset.swift in Sources */,
+				F709647B2C1ED30F00B3BEAD /* Key.swift in Sources */,
+				F7869D752C6372E000D80482 /* Globals.swift in Sources */,
+				F70964482C1DDD5C00B3BEAD /* ViewController.swift in Sources */,
+				F70964442C1DDD5C00B3BEAD /* AppDelegate.swift in Sources */,
+				F7E3C1F82C21CF5000DDD1CB /* Keyboard.swift in Sources */,
+				F7E3C1BF2C2130A600DDD1CB /* SoundfontChooser.swift in Sources */,
+				F709644E2C1DDD5C00B3BEAD /* Lumatone.xcdatamodeld in Sources */,
+				F7E3C1FA2C21DB3C00DDD1CB /* ControlPanel.swift in Sources */,
+				F7E3C1C82C21312100DDD1CB /* LockButton.swift in Sources */,
+				F7E3C1F42C21C11900DDD1CB /* Keymap.swift in Sources */,
+				F74AD8BF2C31657300C2AD02 /* KeyboardLayout.swift in Sources */,
+				F74AD8BB2C2F002C00C2AD02 /* Utils.swift in Sources */,
+				F70964462C1DDD5C00B3BEAD /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F70964492C1DDD5C00B3BEAD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F709644A2C1DDD5C00B3BEAD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F70964512C1DDD5E00B3BEAD /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F70964522C1DDD5E00B3BEAD /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F709646B2C1DDD5E00B3BEAD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F709646C2C1DDD5E00B3BEAD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F709646E2C1DDD5E00B3BEAD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5M9GM5HK46;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lumatone/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Lumatone;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brainbu.Lumatone;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F709646F2C1DDD5E00B3BEAD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5M9GM5HK46;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lumatone/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Lumatone;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brainbu.Lumatone;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F709643B2C1DDD5C00B3BEAD /* Build configuration list for PBXProject "Lumatone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F709646B2C1DDD5E00B3BEAD /* Debug */,
+				F709646C2C1DDD5E00B3BEAD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F709646D2C1DDD5E00B3BEAD /* Build configuration list for PBXNativeTarget "Lumatone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F709646E2C1DDD5E00B3BEAD /* Debug */,
+				F709646F2C1DDD5E00B3BEAD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F709644C2C1DDD5C00B3BEAD /* Lumatone.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F709644D2C1DDD5C00B3BEAD /* Lumatone.xcdatamodel */,
+			);
+			currentVersion = F709644D2C1DDD5C00B3BEAD /* Lumatone.xcdatamodel */;
+			path = Lumatone.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = F70964382C1DDD5C00B3BEAD /* Project object */;
+}
