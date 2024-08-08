@@ -2,7 +2,7 @@
 
 
 ##  Guideline: 
- -   Function first, then appearance
+     features first, then appearance
 
 
 ##  Feature Todo List:
@@ -13,60 +13,60 @@ Keyboard:
         
 +   MultiPress: re-implement hitTest, pick 'radius' of touch, key only store Note
     
-    extract audio fcall to AudioEngine, (cancelled) kb access Note and call AudioEngine
++   extract audio fcall to AudioEngine, (cancelled) kb access Note and call AudioEngine
     
 +   Keymap class: store Notes & Color using coord(indep of Arr), generate from formula
     
--   (maybe)Kb Arrangement class: store layout & size, store axial vector, can calculate
+    (maybe)Kb Arrangement class: store layout & size, store axial vector, can calculate
         positions & sizes, type finite/inf
     
     (maybe)Kb 2d panning zooming, constraints, inertia
     
 +   receive Keymap
     
-    change LockButton to Notification scheme - why?
+x   change LockButton to Notification scheme - why?
     
-    draw key color
++   draw key color
     
     
 Control panel:
 
-    Sound Bank chooser: choose file, read presets in file, form a list
-    
-    Preset picker: pick and store preset id, create Preset obj, send to AudioEngine
+-   Sound Bank chooser: choose file, read presets in file, form a list
     
 -   Keymap picker: add a 'choose file...' segment, when selected pop up file chooser (.ltn)
+
+-   (maybe)Kb Arrangement picker: pick between Luma and InfHex (for now)
+    
++   Preset picker: pick and store preset id, create Preset obj, send to AudioEngine
     
 +   Keymap picker: builtin keymaps
     
--   (maybe)Kb Arrangement picker: pick between Luma and InfHex (for now)
-    
-    Master Vol slider: store val, comm with AudioEngine
++   Master Vol slider: store val, comm with AudioEngine
     
 +   Pitch Bend: store val, spring back, comm with AudioEngine
 
 
 Tuning:
     
--   create 31edo sf2
++   create 31edo sf2
     
     
 AudioEngine:
 
-    control volume, pitch bend, preset change
++   control volume, pitch bend, preset change
     
 
-(maybe) extract all Default settings to Settings class
++   extract all Default settings to Settings class
 
 
-##  Art Design Todo List:
+##  GUI Design Todo List:
 
 Keyboard:
 
-2   Key: programmatically draw keys, design key shape and shadow, key glow color, key press
+x   Key: programmatically draw keys, design key shape and shadow, key glow color, key press
         animation?
         
-    LockButton: auto hide(1. click to show 2. pause to show, play to hide), animation
+x   LockButton: auto hide(1. click to show 2. pause to show, play to hide), animation
         
 Control panel:
 
@@ -78,25 +78,13 @@ Control panel:
 
 
 
-use random access collection where element == key to store keys;
-
-class TouchKeyMap
-
-class KeyCollection
-- add func keySpan(inRect:)-> touched(at: forRadius:)->Set<Keys>
-
 + use keyPressed: [UITouch: Set<Key>] to store pressed keys
 
 
-use attach style with audioengine
 
 
-migrate audio parameters update to AudioEngine, figure out a way to write #Selector from outer class
++ migrate audio parameters update to AudioEngine, figure out a way to write #Selector from outer class
 
-
-Prioritized:
-
-31edo
 
 load .ltn {
 setup multiple channel stuff - figure out why tf channels dont work
@@ -108,7 +96,7 @@ parse
 
 
 
-+doing 31edo {
++ doing 31edo {
 +   refract: audio call to audioengine
 +   new state 'edo' of audioengine, only 12, 31 now
     when in 31, audioengine decide channel and determine pitchbend {
@@ -122,7 +110,7 @@ parse
 + add tuning info to keymap instead of hardcode
 
 
-solutions: - solved!!
+31edo solutions: - solved!!
 1. use core audio
 +. use multiple synths
 3. just figure out the frickin channels
@@ -136,3 +124,5 @@ bugs:
 3. in invalid preset new tuning do not apply - how to recreate?
 4. switch preset app freeze - how to recreate?
 
+Preset class, in which the file url and preset number is stored
+can add more info such as preset name
