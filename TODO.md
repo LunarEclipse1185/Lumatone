@@ -120,11 +120,27 @@ parse
 5. manual send noteOn noteOff - may work
 
 
-bugs:
+## bugs:
 +. lockbutton note do not end
 +. set keymap note do not end
 3. in invalid preset new tuning do not apply - how to recreate?
 4. switch preset app freeze - how to recreate?
 
+
 Preset class, in which the file url and preset number is stored
 can add more info such as preset name
+
+
+## key color:
+use full saturation color in code, multiply by a tint when rendering
+
+## audio issue:
+unison keys collide with each other
+possible solution: use synth queue, send pitchbend every press
+
+## solve all Globals use case
+keymap: needed by key to display key number
+ - user-friendly key notion
+pitch: noone need
+velocity: keyboard need
+preset: AE need

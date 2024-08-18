@@ -11,14 +11,9 @@ import AVFoundation
 
 class Key: UIView {
     
-//    static var idleImage = #imageLiteral(resourceName: "keyIdle.svg")
-//    static var PressedImage = #imageLiteral(resourceName: "keyPressed.svg")
-//    static var idleGlowImage = #imageLiteral(resourceName: "keyIdleGlow.svg")
-//    static var pressedGlowImage = #imageLiteral(resourceName: "keyPressedGlow.svg")
-    
-    public static var keyImage = #imageLiteral(resourceName: "key.svg")
-    public static var shadowImage = #imageLiteral(resourceName: "keyShadow.svg")
-    public static var glowImage = #imageLiteral(resourceName: "keyGlow.svg")
+    public static let keyImage = #imageLiteral(resourceName: "key.svg")
+    public static let shadowImage = #imageLiteral(resourceName: "keyShadow.svg")
+    public static let glowImage = #imageLiteral(resourceName: "keyGlow.svg")
     
 //    public static let imageCenter: (x: CGFloat, y: CGFloat) = (x: 38.3845, y: 37.790)
 //    public static let imageSize: (x: CGFloat, y: CGFloat) = (x: 76.769, y: 89.745)
@@ -39,16 +34,33 @@ class Key: UIView {
       }()
     
     
-    public var note: UInt8
-    public var color: UIColor
+    var note: UInt8 = 0
+    var color: UIColor = .clear
+    
+    var scale: CGFloat = 1.0 {
+        didSet {
+            // scaling
+            for view in [keyImageView, glowImageView, noteLabel] {
+                view.frame.size.width *= scale / oldValue
+                view.frame.size.height *= scale / oldValue
+            }
+            noteLabel.font = noteLabel.font.withSize(22 * scale)
+            
+            // positioning
+            setNeedsLayout()
+        }
+    }
+    
+    var pressed = false {
+        didSet {
+            setNeedsLayout()
+        }
+    }
     
     
     required init?(coder: NSCoder) { fatalError() }
     
-    init(note: UInt8, color: UIColor) {
-        //self.glowImageView = UIImageView(image: Key.glowImage.withTintColor(color))
-        self.note = note
-        self.color = color
+    init() {
         super.init(frame: CGRect(origin: .zero, size: Key.shadowImage.size))
         
         for view in [shadowImageView, keyImageView, glowImageView] {
@@ -61,44 +73,29 @@ class Key: UIView {
         addSubview(keyImageView)
         addSubview(glowImageView)
         addSubview(noteLabel)
-        
-//        let circle = UIView(frame: CGRect(origin: self.frame.origin, size: CGSizeMake(85, 85)))
-//        circle.frame.origin.x -= circle.frame.size.width / 2
-//        circle.frame.origin.y -= circle.frame.size.height / 2
-//        circle.layer.cornerRadius = circle.frame.size.width / 2
-//        circle.backgroundColor = UIColor(white: 0, alpha: 0.2)
-//        addSubview(circle)
     }
     
-    convenience init() {
-        self.init(note: 0, color: .clear)
-    }
-    
-    public func assign(note: UInt8, color: UIColor) {
+    func assign(note: UInt8, color: UIColor) {
         self.glowImageView.image = Key.glowImage.withTintColor(color)
         self.note = note
         noteLabel.text = String(Int(note) % Globals.activeKeymap.tuning)
         self.color = color
     }
     
-//    override func layoutSubviews() {
-        // TODO: respond to keyboard zooming
-        //noteLabel.frame.origin.x = self.frame.origin.x + self.frame.width/2.0 - noteLabel.frame.width/2.0
-        //noteLabel.frame.origin.y = self.frame.origin.y + self.frame.height/2.0 - noteLabel.frame.height/2.0
-//    }
     
-    
-    // user interaction change appearance
-    
-    public func activate(_ touch: UITouch, with event: UIEvent?) {
+    override func layoutSubviews() {
+        // positioning
         for view in [keyImageView, glowImageView, noteLabel] {
-            view.frame.origin.y = -view.frame.size.height / 2 + 4.5;
+            view.frame.origin.y = -view.frame.size.height / 2 + (pressed ? 4.5 : 0)
         }
     }
-    public func deactivate() {
-        for view in [keyImageView, glowImageView, noteLabel] {
-            view.frame.origin.y = -view.frame.size.height / 2;
-        }
+    
+    
+    func activate(_ touch: UITouch, with event: UIEvent?) {
+        pressed = true
+    }
+    func deactivate() {
+        pressed = false
     }
     
 }

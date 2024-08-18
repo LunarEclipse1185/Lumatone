@@ -9,6 +9,7 @@ import UIKit
 
 class Keyboard: UIView {
     
+    // for now the keyboard layout is hardcoded
     public static let coshori: CGFloat = cos(-0.2810349)
     public static let sinhori: CGFloat = sin(-0.2810349)
     public static let cosvert: CGFloat = cos(+1.8133602)
@@ -19,22 +20,14 @@ class Keyboard: UIView {
     public static let LayoutRowOffs: [Int] =
     [0, 1, 1, 2, 2, 3, 3, 4, 4, 6, 9, 13, 16, 20, 23, 27, 30, 34, 37]
     
-    
+    // components
     private var audioEngine: AudioEngine
-    
-    private var lockButton = LockButton()
-    
     private var keymap: Keymap
     
-    private var boundsOriginXMax: CGFloat = 0 // to be changed to contentSize: CGRect
-    
     private var keys: [[Key]]
+    private var lockButton = LockButton()
+    private var contentWidth: CGFloat = 0 // to be changed to contentSize: CGRect
     
-    //private var exampleKey: Key
-    
-    /*func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-     return exampleKey // so viewcontroller needs to have a reference of exampleKey
-     }*/ // do not allow zooming now
     
     required init(coder: NSCoder) { fatalError() }
     
@@ -72,7 +65,7 @@ class Keyboard: UIView {
         lockButton.keyboard = self
     }
     
-    public func changeKeymap(_ keymap: Keymap) {
+    func changeKeymap(_ keymap: Keymap) {
         stopAllNotes()
         self.keymap = keymap
         for i in 0 ..< keys.count {
@@ -85,7 +78,7 @@ class Keyboard: UIView {
         audioEngine.changeTuning(edo: keymap.tuning)
     }
     
-    public func stopAllNotes() {
+    func stopAllNotes() {
         for (_, keys) in touchedKeys {
             for key in keys {
                 audioEngine.stopNote(key.note)
@@ -97,33 +90,33 @@ class Keyboard: UIView {
     
     // rendering and user interaction
     
+    var scale: CGFloat = 1.0
+    
     override func layoutSubviews() {
         lockButton.frame.origin = CGPointMake(20 + self.bounds.origin.x, self.frame.height-70)
         
-        // TODO: manual draw change this
-        let keyCenterDist = self.frame.height / 9.0
-        boundsOriginXMax = 34.186 * keyCenterDist
+        let gridUnit = self.frame.height / 9.0
+        contentWidth = 34.186 * gridUnit
+        scale = gridUnit / 60 // smaller denominator, tighter spacing
         for (i, row) in keys.enumerated() {
             for (j, key) in row.enumerated() {
-                var centerX = keyCenterDist // arbitrary
-                centerX += CGFloat(i) * Keyboard.cosvert * keyCenterDist
-                centerX += CGFloat(j + Keyboard.LayoutRowOffs[i]) * Keyboard.coshori * keyCenterDist
+                // positioning
+                var centerX = gridUnit
+                centerX += CGFloat(i) * Keyboard.cosvert * gridUnit
+                centerX += CGFloat(j + Keyboard.LayoutRowOffs[i]) * Keyboard.coshori * gridUnit
                 
-                var centerY = 0.5 * self.frame.height - 3.4 * keyCenterDist
-                centerY += CGFloat(i) * Keyboard.sinvert * keyCenterDist
-                centerY += CGFloat(j + Keyboard.LayoutRowOffs[i]) * Keyboard.sinhori * keyCenterDist
+                var centerY = 0.5 * self.frame.height - 3.4 * gridUnit
+                centerY += CGFloat(i) * Keyboard.sinvert * gridUnit
+                centerY += CGFloat(j + Keyboard.LayoutRowOffs[i]) * Keyboard.sinhori * gridUnit
                 
-                // resize keys here
+                // scaling
+                key.scale = scale
                 
                 key.frame.origin = CGPointMake(centerX, centerY)
             }
         }
     }
     
-    
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        return lockButton.hitTest(point - lockButton.frame.origin, with: event) ?? (CGRectMake(0, 0, boundsOriginXMax, self.frame.height).contains(point) ? self : nil)
-    }
     
     private let touchRadius: CGFloat = 45
     private var touchedKeys: [UITouch: Set<Key>] = [:]
@@ -168,7 +161,7 @@ class Keyboard: UIView {
         if lockButton.locked { return }
         bounds.origin.x -= touches.first!.location(in: self).x - touches.first!.previousLocation(in: self).x
         bounds.origin.x = max(0, bounds.origin.x)
-        bounds.origin.x = min(boundsOriginXMax - frame.width, bounds.origin.x)
+        bounds.origin.x = min(contentWidth - frame.width, bounds.origin.x)
         // add inertia
     }
     

@@ -10,6 +10,7 @@ import AVFoundation
 
 class ControlPanel: UIView {
     
+    // components
     private var audioEngine: AudioEngine
     private var keyboard: Keyboard // associated keyboard
     
@@ -26,12 +27,14 @@ class ControlPanel: UIView {
         addSubview(pitchBendSlider)
         addSubview(velocitySlider)
         addSubview(pitchBendLabel)
-        addSubview(masterGainLabel)
+        addSubview(velocityLabel)
         
         addSubview(soundfontChooser)
         addSubview(presetPicker)
         addSubview(keymapPicker)
         addSubview(layoutPicker)
+        
+        addSubview(handle)
     }
     
     override func layoutSubviews() {
@@ -42,14 +45,22 @@ class ControlPanel: UIView {
         velocitySlider.frame = CGRectMake(0.8 * h, 0.1 * h, 0.3 * h, 0.7 * h)
         
         pitchBendLabel.frame = CGRectMake(0.1 * h, 0.75 * h, 0.5 * h, 0.2 * h)
-        masterGainLabel.frame = CGRectMake(0.7 * h, 0.75 * h, 0.5 * h, 0.2 * h)
+        velocityLabel.frame = CGRectMake(0.7 * h, 0.75 * h, 0.5 * h, 0.2 * h)
         
         soundfontChooser.frame = CGRectMake(w - 3.3 * h, 0.1 * h, 1.5 * h, 0.3 * h)
         presetPicker.frame = CGRectMake(w - 3.3 * h, 0.6 * h, 1.5 * h, 0.3 * h)
         layoutPicker.frame = CGRectMake(w - 1.6 * h, 0.1 * h, 1.5 * h, 0.3 * h)
         keymapPicker.frame = CGRectMake(w - 1.6 * h, 0.6 * h, 1.5 * h, 0.3 * h)
+        
+        handle.frame = CGRectMake(0.85 * w, h, 0.08 * w, 0.03 * w)
     }
     
+    // handle
+    private lazy var handle = Handle()
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        return handle.hitTest(handle.convert(point, from: self), with: event) ?? super.hitTest(point, with: event)
+    }
     
     // components
     
@@ -62,7 +73,7 @@ class ControlPanel: UIView {
         return label
     }()
     
-    private lazy var masterGainLabel = {
+    private lazy var velocityLabel = {
         let label = UILabel()
         label.text = "Velocity"
         label.font = .systemFont(ofSize: 14)
@@ -72,6 +83,7 @@ class ControlPanel: UIView {
     }()
     
     
+    // MARK: Pitch Bend
     private lazy var pitchBendSlider = {
         let pbs = UISlider()
         pbs.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
@@ -116,6 +128,7 @@ class ControlPanel: UIView {
     }
     
     
+    // MARK: Velocity
     private lazy var velocitySlider = {
         let vs = UISlider()
         vs.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
@@ -130,10 +143,11 @@ class ControlPanel: UIView {
     }
     
     
+    // MARK: Soundfont (TODO)
     private var soundfontChooser = SoundfontChooser() // TODO
 
     
-    
+    // MARK: Preset
     private lazy var presetPicker = {
         let picker = UIButton(configuration: .bordered())
         //picker.setTitleColor(.lightText, for: .normal) // TODO: for all state, contrastive color
@@ -150,6 +164,7 @@ class ControlPanel: UIView {
     }()
     
     
+    // MARK: Keymap
     private lazy var keymapPicker = {
         let picker = UIButton(configuration: .bordered())
         picker.menu = UIMenu(options: .singleSelection, children: Keymap.builtin.map { keymap in
@@ -182,11 +197,12 @@ class ControlPanel: UIView {
         return sc
         
         // TODO: add a special segment for keymap loaded from file
-        /// plan: "Open..." segment when tapped open a file select dialog, add a segment before itself and select the loaded keymap
+        /// plan: "Open..." segment when pressed open a file select dialog, add a segment before itself and select the loaded keymap
     }()
     */
     
     
+    // MARK: Layout (TODO)
     private var layoutPicker = {
         let sc = UISegmentedControl(frame: .zero, actions: [
             UIAction(title: "Lumatone", image: nil) { _ in

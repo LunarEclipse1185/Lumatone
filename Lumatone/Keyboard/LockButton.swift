@@ -9,9 +9,9 @@ import UIKit
 
 class LockButton: UIView {
     
-    public var locked = true;
+    var locked = true;
     
-    public var keyboard: Keyboard?
+    var keyboard: Keyboard?
     
     lazy private var symbol: UIImageView = {
         let img = UIImage(systemName: "lock.fill")

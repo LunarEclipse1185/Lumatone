@@ -10,9 +10,9 @@ import AVFoundation
 class AudioEngine {
     
     private var engine = AVAudioEngine()
-    public var synths: [AVAudioUnitSampler] = []
+    var synths: [AVAudioUnitSampler] = []
     
-    public func setupEngine() {
+    func setupEngine() {
         //synth = AVAudioUnitSampler()
         
         //let synth = self.synth!
@@ -65,13 +65,13 @@ class AudioEngine {
         }
     }
     
-    public func loadInstrument(presetIndex: UInt8 = Globals.presetIndex) {
+    func loadInstrument(presetIndex: UInt8 = Globals.presetIndex) {
         for synth in synths {
             loadInstrument(synth, presetIndex: presetIndex)
         }
     }
     
-    public func stopAudio() { // never called
+    func stopAudio() { // never called
         for synth in synths {
             AudioUnitReset(synth.audioUnit, kAudioUnitScope_Global, 0)
             synth.reset()
@@ -194,7 +194,7 @@ class AudioEngine {
         return UInt8(round( Double(note)/Double(edo)*12.0 ))
     }
     
-    public func changeTuning(edo: Int) {
+    func changeTuning(edo: Int) {
         guard edo > 0 else { return }
         self.edo = edo
         
@@ -211,7 +211,7 @@ class AudioEngine {
         }
     }
     
-    public func startNote(_ note: UInt8, withVelocity velocity: UInt8) {
+    func startNote(_ note: UInt8, withVelocity velocity: UInt8) {
         if edo == 12 {
             synths[0].startNote(note, withVelocity: velocity, onChannel: 0)
         } else {
@@ -219,7 +219,7 @@ class AudioEngine {
         }
     }
     
-    public func stopNote(_ note: UInt8) {
+    func stopNote(_ note: UInt8) {
         if edo == 12 {
             synths[0].stopNote(note, onChannel: 0)
         } else {

@@ -5,6 +5,7 @@
 //  Created by SH BU on 2024/7/14.
 //
 
+/*
 import SwiftUI
 import AVFoundation
 
@@ -31,3 +32,4 @@ struct testPreview: UIViewRepresentable {
 #Preview {
     Preview()
 }
+*/

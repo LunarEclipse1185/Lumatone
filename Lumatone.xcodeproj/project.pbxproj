@@ -15,6 +15,9 @@
 		F70964502C1DDD5E00B3BEAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F709644F2C1DDD5E00B3BEAD /* Assets.xcassets */; };
 		F70964532C1DDD5E00B3BEAD /* Base in Resources */ = {isa = PBXBuildFile; fileRef = F70964522C1DDD5E00B3BEAD /* Base */; };
 		F709647B2C1ED30F00B3BEAD /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = F709647A2C1ED30F00B3BEAD /* Key.swift */; };
+		F72D4CE72C6F451D00220105 /* Handle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72D4CE62C6F451D00220105 /* Handle.swift */; };
+		F72D4CE92C70EB0E00220105 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72D4CE82C70EB0E00220105 /* Notification.swift */; };
+		F72D4CEB2C70EDE300220105 /* TypedNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72D4CEA2C70EDE300220105 /* TypedNotification.swift */; };
 		F74AD8BB2C2F002C00C2AD02 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74AD8BA2C2F002C00C2AD02 /* Utils.swift */; };
 		F74AD8BF2C31657300C2AD02 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74AD8BE2C31657300C2AD02 /* KeyboardLayout.swift */; };
 		F7869D752C6372E000D80482 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7869D742C6372E000D80482 /* Globals.swift */; };
@@ -22,9 +25,7 @@
 		F7E3C1B92C208C9400DDD1CB /* YamahaGrand.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */; };
 		F7E3C1BF2C2130A600DDD1CB /* SoundfontChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1BE2C2130A600DDD1CB /* SoundfontChooser.swift */; };
 		F7E3C1C82C21312100DDD1CB /* LockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1C72C21312100DDD1CB /* LockButton.swift */; };
-		F7E3C1CE2C21315900DDD1CB /* KeymapPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1CD2C21315900DDD1CB /* KeymapPicker.swift */; };
 		F7E3C1F42C21C11900DDD1CB /* Keymap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F32C21C11900DDD1CB /* Keymap.swift */; };
-		F7E3C1F62C21C13C00DDD1CB /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F52C21C13C00DDD1CB /* Preset.swift */; };
 		F7E3C1F82C21CF5000DDD1CB /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F72C21CF5000DDD1CB /* Keyboard.swift */; };
 		F7E3C1FA2C21DB3C00DDD1CB /* ControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F92C21DB3C00DDD1CB /* ControlPanel.swift */; };
 		F7E3C21C2C21E59C00DDD1CB /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C21B2C21E59C00DDD1CB /* AudioEngine.swift */; };
@@ -55,6 +56,9 @@
 		F70964522C1DDD5E00B3BEAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F70964542C1DDD5E00B3BEAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F709647A2C1ED30F00B3BEAD /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		F72D4CE62C6F451D00220105 /* Handle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handle.swift; sourceTree = "<group>"; };
+		F72D4CE82C70EB0E00220105 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		F72D4CEA2C70EDE300220105 /* TypedNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypedNotification.swift; sourceTree = "<group>"; };
 		F73354482C648315000979D6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F74AD8BA2C2F002C00C2AD02 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		F74AD8BE2C31657300C2AD02 /* KeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayout.swift; sourceTree = "<group>"; };
@@ -63,9 +67,7 @@
 		F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = YamahaGrand.sf2; sourceTree = "<group>"; };
 		F7E3C1BE2C2130A600DDD1CB /* SoundfontChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundfontChooser.swift; sourceTree = "<group>"; };
 		F7E3C1C72C21312100DDD1CB /* LockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockButton.swift; sourceTree = "<group>"; };
-		F7E3C1CD2C21315900DDD1CB /* KeymapPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapPicker.swift; sourceTree = "<group>"; };
 		F7E3C1F32C21C11900DDD1CB /* Keymap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keymap.swift; sourceTree = "<group>"; };
-		F7E3C1F52C21C13C00DDD1CB /* Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preset.swift; sourceTree = "<group>"; };
 		F7E3C1F72C21CF5000DDD1CB /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		F7E3C1F92C21DB3C00DDD1CB /* ControlPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanel.swift; sourceTree = "<group>"; };
 		F7E3C21B2C21E59C00DDD1CB /* AudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
@@ -136,6 +138,8 @@
 				F7E3C21B2C21E59C00DDD1CB /* AudioEngine.swift */,
 				F74AD8BA2C2F002C00C2AD02 /* Utils.swift */,
 				F7869D742C6372E000D80482 /* Globals.swift */,
+				F72D4CE82C70EB0E00220105 /* Notification.swift */,
+				F72D4CEA2C70EDE300220105 /* TypedNotification.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -152,9 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				F7E3C1F92C21DB3C00DDD1CB /* ControlPanel.swift */,
+				F72D4CE62C6F451D00220105 /* Handle.swift */,
 				F7E3C1BE2C2130A600DDD1CB /* SoundfontChooser.swift */,
-				F7E3C1F52C21C13C00DDD1CB /* Preset.swift */,
-				F7E3C1CD2C21315900DDD1CB /* KeymapPicker.swift */,
 				F7E3C1F32C21C11900DDD1CB /* Keymap.swift */,
 				F74AD8BE2C31657300C2AD02 /* KeyboardLayout.swift */,
 			);
@@ -239,10 +242,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7E3C21C2C21E59C00DDD1CB /* AudioEngine.swift in Sources */,
-				F7E3C1CE2C21315900DDD1CB /* KeymapPicker.swift in Sources */,
 				F7B4FFB02C43CC9300BAD4C3 /* Preview.swift in Sources */,
-				F7E3C1F62C21C13C00DDD1CB /* Preset.swift in Sources */,
 				F709647B2C1ED30F00B3BEAD /* Key.swift in Sources */,
+				F72D4CE72C6F451D00220105 /* Handle.swift in Sources */,
 				F7869D752C6372E000D80482 /* Globals.swift in Sources */,
 				F70964482C1DDD5C00B3BEAD /* ViewController.swift in Sources */,
 				F70964442C1DDD5C00B3BEAD /* AppDelegate.swift in Sources */,
@@ -254,7 +256,9 @@
 				F7E3C1F42C21C11900DDD1CB /* Keymap.swift in Sources */,
 				F74AD8BF2C31657300C2AD02 /* KeyboardLayout.swift in Sources */,
 				F74AD8BB2C2F002C00C2AD02 /* Utils.swift in Sources */,
+				F72D4CEB2C70EDE300220105 /* TypedNotification.swift in Sources */,
 				F70964462C1DDD5C00B3BEAD /* SceneDelegate.swift in Sources */,
+				F72D4CE92C70EB0E00220105 /* Notification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
