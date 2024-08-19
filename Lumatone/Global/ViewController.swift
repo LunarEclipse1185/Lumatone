@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         audioEngine = AudioEngine()
         audioEngine.setupEngine()
         keyboard = Keyboard(audioEngine)
-        controlPanel = ControlPanel(audioEngine, keyboard)
+        controlPanel = ControlPanel()
         
         super.viewDidLoad()
         
@@ -41,5 +41,6 @@ class ViewController: UIViewController {
         
         keyboard.frame.origin.y = folded ? 0 : controlPanel.frame.height
         keyboard.frame.size.height = folded ? sframe.height : sframe.height - controlPanel.frame.height
+        keyboard.padding = folded ? 0.7 : 0.0
     }
 }

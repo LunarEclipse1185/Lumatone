@@ -8,7 +8,19 @@
 import AVFoundation
 
 class AudioEngine {
+    // notification templates
+    static let pitchBendChangedNotif = TypedNotification<Float>(name: "pitchBendChanged")
+    static let masterGainChangedNotif = TypedNotification<Float>(name: "masterGainChanged") // unused
+    static let tuningChangedNotif = TypedNotification<Int>(name: "tuningChanged")
+    static let presetIndexChangedNotif = TypedNotification<UInt8>(name: "presetIndexChanged")
     
+    // observers
+    private var pitchBendChangedNotifier: NotificationObserver?
+    private var masterGainChangedNotifier: NotificationObserver?
+    private var tuningChangedNotifier: NotificationObserver?
+    private var presetIndexChangedNotifier: NotificationObserver?
+    
+    // components
     private var engine = AVAudioEngine()
     var synths: [AVAudioUnitSampler] = []
     
@@ -30,7 +42,52 @@ class AudioEngine {
         
         setupAudioSession()
         
+        pitchBendChangedNotifier = Self.pitchBendChangedNotif.registerOnAny(block: setPitchBend(_:))
+        masterGainChangedNotifier = Self.masterGainChangedNotif.registerOnAny(block: setMasterGain(_:))
+        tuningChangedNotifier = Self.tuningChangedNotif.registerOnAny { [weak self] edo in
+            self?.edo = edo
+        }
+        presetIndexChangedNotifier = Self.presetIndexChangedNotif.registerOnAny(block: loadInstrument(presetIndex:))
     }
+    private func setPitchBend(_ value: Float) {
+        for synth in synths {
+            synth.globalTuning = value
+        }
+    }
+    private func setMasterGain(_ value: Float) {
+        for synth in synths {
+            synth.overallGain = value
+        }
+    }
+    
+    
+    func setupAudioSession() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(AVAudioSession.Category.playback, options:
+                                        AVAudioSession.CategoryOptions.mixWithOthers)
+            } catch {
+                print("couldn't set category \(error)")
+                return
+            }
+            
+        do {
+            try audioSession.setActive(true)
+        } catch {
+            print("couldn't set category active \(error)")
+            return
+        }
+    }
+    
+    func stopAudio() { // unused
+        for synth in synths {
+            AudioUnitReset(synth.audioUnit, kAudioUnitScope_Global, 0)
+            synth.reset()
+            engine.detach(synth)
+        }
+        engine.reset()
+    }
+    
     
     private func createSynth(withTuning cents: Float = 0) {
         let synth = AVAudioUnitSampler()
@@ -43,7 +100,13 @@ class AudioEngine {
         loadInstrument(synth)
     }
     
-    private func loadInstrument(_ synth: AVAudioUnitSampler, presetIndex: UInt8 = Globals.presetIndex) {
+    func loadInstrument(presetIndex: UInt8 = 0) { // add url param in the future
+        for synth in synths {
+            loadInstrument(synth, presetIndex: presetIndex)
+        }
+    }
+    
+    private func loadInstrument(_ synth: AVAudioUnitSampler, presetIndex: UInt8 = 0) {
         guard let bankURL = Bundle.main.url(forResource: "YamahaGrand", withExtension: "sf2")
             else { fatalError("load soundfont failed") }
         
@@ -65,42 +128,52 @@ class AudioEngine {
         }
     }
     
-    func loadInstrument(presetIndex: UInt8 = Globals.presetIndex) {
-        for synth in synths {
-            loadInstrument(synth, presetIndex: presetIndex)
-        }
-    }
-    
-    func stopAudio() { // never called
-        for synth in synths {
-            AudioUnitReset(synth.audioUnit, kAudioUnitScope_Global, 0)
-            synth.reset()
-            engine.detach(synth)
-        }
-        engine.reset()
-    }
-    
-    func setupAudioSession() {
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(AVAudioSession.Category.playback, options:
-                                        AVAudioSession.CategoryOptions.mixWithOthers)
-            } catch {
-                print("couldn't set category \(error)")
-                return
-            }
-            
-        do {
-            try audioSession.setActive(true)
-        } catch {
-            print("couldn't set category active \(error)")
-            return
-        }
-    }
     
     // midi api
     
-    private var edo = 12
+    // multiple synths method
+    private var edo: Int = 12 {
+        didSet {
+            guard edo > 0 else {
+                edo = oldValue
+                return
+            }
+            
+            if edo == 12 {
+                synths[0].globalTuning = 0.0
+                return
+            }
+            
+            for (note, synth) in synths.enumerated() {
+                synth.globalTuning = getFrac(note) * 100
+            }
+            while synths.count < edo {
+                createSynth(withTuning: getFrac(synths.count) * 100)
+            }
+        }
+    }
+    private func getFrac(_ note: Int) -> Float { // in cents
+        return Float(note)/Float(edo)*12.0 - round( Float(note)/Float(edo)*12.0 )
+    }
+    private func getRepr(_ note: UInt8) -> UInt8 { // represent note in 12edo
+        return UInt8(round( Double(note)/Double(edo)*12.0 ))
+    }
+    
+    func startNote(_ note: UInt8, withVelocity velocity: UInt8) {
+        if edo == 12 {
+            synths[0].startNote(note, withVelocity: velocity, onChannel: 0)
+        } else {
+            synths[Int(note)%edo].startNote(getRepr(note), withVelocity: velocity, onChannel: 0)
+        }
+    }
+    
+    func stopNote(_ note: UInt8) {
+        if edo == 12 {
+            synths[0].stopNote(note, onChannel: 0)
+        } else {
+            synths[Int(note)%edo].stopNote(getRepr(note), onChannel: 0)
+        }
+    }
     
     // failed attempt: MTS sys ex event
     
@@ -183,65 +256,6 @@ class AudioEngine {
         print("Stop Note: ", note, " represented by ", getRepr(note), " on channel ", chan)
     }
     */
-    
-    // multiple synths method
-    
-    private func getFrac(_ note: Int) -> Float { // in cents
-        return Float(note)/Float(edo)*12.0 - round( Float(note)/Float(edo)*12.0 )
-    }
-    
-    private func getRepr(_ note: UInt8) -> UInt8 { // represent note in 12edo
-        return UInt8(round( Double(note)/Double(edo)*12.0 ))
-    }
-    
-    func changeTuning(edo: Int) {
-        guard edo > 0 else { return }
-        self.edo = edo
-        
-        if edo == 12 {
-            synths[0].globalTuning = 0.0
-            return
-        }
-        
-        for (note, synth) in synths.enumerated() {
-            synth.globalTuning = getFrac(note) * 100
-        }
-        while synths.count < edo {
-            createSynth(withTuning: getFrac(synths.count) * 100)
-        }
-    }
-    
-    func startNote(_ note: UInt8, withVelocity velocity: UInt8) {
-        if edo == 12 {
-            synths[0].startNote(note, withVelocity: velocity, onChannel: 0)
-        } else {
-            synths[Int(note)%edo].startNote(getRepr(note), withVelocity: velocity, onChannel: 0)
-        }
-    }
-    
-    func stopNote(_ note: UInt8) {
-        if edo == 12 {
-            synths[0].stopNote(note, onChannel: 0)
-        } else {
-            synths[Int(note)%edo].stopNote(getRepr(note), onChannel: 0)
-        }
-    }
-    
-    
-    @inlinable
-    public func setPitchBend(_ value: Float) {
-        for synth in synths {
-            synth.globalTuning = value
-        }
-    }
-    
-    @inlinable
-    public func setMasterGain(_ value: Float) { // never called
-        for synth in synths {
-            synth.overallGain = value
-        }
-    }
-    
 }
 
 /*

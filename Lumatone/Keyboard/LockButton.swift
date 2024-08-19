@@ -36,7 +36,7 @@ class LockButton: UIView {
     init() {
         super.init(frame: CGRectMake(0, 0, 50, 50))
         self.backgroundColor = .white
-        self.layer.cornerRadius = self.frame.width / 2
+        self.layer.cornerRadius = frame.width / 2
         self.layer.shadowColor = CGColor(gray: 0, alpha: 1)
         self.layer.shadowRadius = 10
         self.layer.shadowOpacity = 0.5

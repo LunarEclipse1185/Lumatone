@@ -144,3 +144,10 @@ keymap: needed by key to display key number
 pitch: noone need
 velocity: keyboard need
 preset: AE need
+
+
+## todo: 
+toggle multipress
+
+## warning:
+no factory...

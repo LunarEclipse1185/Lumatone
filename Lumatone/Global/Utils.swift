@@ -39,3 +39,11 @@ prefix func - (point: CGPoint) -> CGPoint {
 func CGPointDistanceSquared(_ from: CGPoint, _ to: CGPoint) -> CGFloat {
     return (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y)
 }
+
+func clamp<T>(_ x: T, _ lower: T, _ upper: T) -> T where T : Comparable {
+    return max(lower, min(upper, x))
+}
+
+func colorRGB(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat) -> UIColor {
+    return UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1)
+}

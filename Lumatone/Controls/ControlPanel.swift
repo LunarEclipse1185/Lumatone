@@ -9,87 +9,69 @@ import UIKit
 import AVFoundation
 
 class ControlPanel: UIView {
-    
-    // components
-    private var audioEngine: AudioEngine
-    private var keyboard: Keyboard // associated keyboard
-    
     required init(coder: NSCoder) { fatalError() }
     
-    init(_ engine: AudioEngine, _ keyboard: Keyboard) {
-        self.audioEngine = engine
-        self.keyboard = keyboard
-        
+    init() {
         super.init(frame: .zero)
         
         self.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         
-        addSubview(pitchBendSlider)
-        addSubview(velocitySlider)
-        addSubview(pitchBendLabel)
-        addSubview(velocityLabel)
+        addSubview(pitchBendControl)
+        addSubview(velocityControl)
         
         addSubview(soundfontChooser)
+        
         addSubview(presetPicker)
         addSubview(keymapPicker)
         addSubview(layoutPicker)
         
         addSubview(handle)
+        
+        // initial values of the controls
+        // TODO: bad in that init values are separated
+        pitchBendSlider.sendActions(for: .valueChanged)
+        velocitySlider.sendActions(for: .valueChanged)
+        presetPicker.sendAction(presetPicker.menu?.children[0] as! UIAction)
+        keymapPicker.sendAction(keymapPicker.menu?.children[0] as! UIAction)
+        layoutPicker.selectedSegmentIndex = 0
+        layoutPicker.sendActions(for: .valueChanged)
     }
     
     override func layoutSubviews() {
-        let w = self.frame.width
-        let h = self.frame.height
+        let w = frame.width
+        let h = frame.height
         
-        pitchBendSlider.frame = CGRectMake(0.2 * h, 0.1 * h, 0.3 * h, 0.7 * h)
-        velocitySlider.frame = CGRectMake(0.8 * h, 0.1 * h, 0.3 * h, 0.7 * h)
+        pitchBendControl.frame = CGRectMake(0.2 * h, 0.1 * h, 0.3 * h, 0.7 * h)
+        velocityControl.frame = CGRectMake(0.6 * h, 0.1 * h, 0.3 * h, 0.7 * h)
         
-        pitchBendLabel.frame = CGRectMake(0.1 * h, 0.75 * h, 0.5 * h, 0.2 * h)
-        velocityLabel.frame = CGRectMake(0.7 * h, 0.75 * h, 0.5 * h, 0.2 * h)
+        //soundfontChooser.frame = CGRectMake(w - 3.3 * h, 0.1 * h, 1.5 * h, 0.3 * h) // TODO:
         
-        soundfontChooser.frame = CGRectMake(w - 3.3 * h, 0.1 * h, 1.5 * h, 0.3 * h)
-        presetPicker.frame = CGRectMake(w - 3.3 * h, 0.6 * h, 1.5 * h, 0.3 * h)
-        layoutPicker.frame = CGRectMake(w - 1.6 * h, 0.1 * h, 1.5 * h, 0.3 * h)
-        keymapPicker.frame = CGRectMake(w - 1.6 * h, 0.6 * h, 1.5 * h, 0.3 * h)
+        let height = 0.2 * h
+        let width = 1.2 * h
+        let spacing = (h - 3 * height) / 4
+        for (i, view) in [layoutPicker, presetPicker, keymapPicker].enumerated() {
+            view.frame = CGRectMake(w - width - spacing, CGFloat(i) * height + CGFloat(i+1) * spacing, width, height)
+        }
         
         handle.frame = CGRectMake(0.85 * w, h, 0.08 * w, 0.03 * w)
     }
     
-    // handle
+    
+    // MARK: handle
     private lazy var handle = Handle()
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         return handle.hitTest(handle.convert(point, from: self), with: event) ?? super.hitTest(point, with: event)
     }
     
-    // components
-    
-    private lazy var pitchBendLabel = {
-        let label = UILabel()
-        label.text = "Pitch Bend"
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = .lightGray
-        label.textAlignment = .center
-        return label
-    }()
-    
-    private lazy var velocityLabel = {
-        let label = UILabel()
-        label.text = "Velocity"
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = .lightGray
-        label.textAlignment = .center
-        return label
-    }()
-    
-    
     // MARK: Pitch Bend
+    private lazy var pitchBendControl = LabeledControl("Pitch Bend", control: pitchBendSlider, labelPosition: .bottom)
     private lazy var pitchBendSlider = {
         let pbs = UISlider()
         pbs.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         pbs.minimumValue = -200.0 // cents
         pbs.maximumValue = 200.0
-        pbs.setValue(Globals.pitchBend, animated: false)
+        pbs.setValue(0, animated: false)
         pbs.addTarget(self, action: #selector(sendPitchBend), for: .valueChanged)
         pbs.addTarget(self, action: #selector(elasticAnimation), for: .touchUpInside)
         pbs.addTarget(self, action: #selector(elasticAnimation), for: .touchUpOutside)
@@ -97,8 +79,7 @@ class ControlPanel: UIView {
         return pbs
     }()
     @objc private func sendPitchBend() {
-        Globals.pitchBend = pitchBendSlider.value
-        audioEngine.setPitchBend(pitchBendSlider.value)
+        AudioEngine.pitchBendChangedNotif.post(value: pitchBendSlider.value)
     }
     @objc private func stopAnimation() {
         timer?.invalidate()
@@ -129,18 +110,22 @@ class ControlPanel: UIView {
     
     
     // MARK: Velocity
+    private lazy var velocityControl = LabeledControl("Velocity", control: velocitySlider, labelPosition: .bottom)
     private lazy var velocitySlider = {
         let vs = UISlider()
         vs.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
         vs.minimumValue = 0
         vs.maximumValue = 127
-        vs.setValue(Float(Globals.globalVelocity), animated: false)
-        vs.addTarget(self, action: #selector(sendMasterGain), for: .valueChanged)
+        vs.setValue(64, animated: false)
+        vs.addTarget(self, action: #selector(sendVelocity), for: .valueChanged)
         return vs
     }()
-    @objc private func sendMasterGain() {
-        Globals.globalVelocity = UInt8(clamping: Int(velocitySlider.value))
+    @objc private func sendVelocity() {
+        Keyboard.velocityChangedNotif.post(value: UInt8(velocitySlider.value))
     }
+    
+    
+    // MARK: Tickbox Settings
     
     
     // MARK: Soundfont (TODO)
@@ -150,14 +135,13 @@ class ControlPanel: UIView {
     // MARK: Preset
     private lazy var presetPicker = {
         let picker = UIButton(configuration: .bordered())
-        //picker.setTitleColor(.lightText, for: .normal) // TODO: for all state, contrastive color
+        picker.setTitleColor(.white, for: .highlighted)
+        picker.setTitleColor(.white, for: .normal)
         picker.menu = UIMenu(options: .singleSelection, children: ((0...127) as ClosedRange<UInt8>).map { index in
             UIAction(title: "Preset " + String(index)) { _ in
-                Globals.presetIndex = index
-                self.audioEngine.loadInstrument(presetIndex: index)
+                AudioEngine.presetIndexChangedNotif.post(value: index)
             }
         })
-        picker.sendAction(picker.menu?.children[Int(Globals.presetIndex)] as! UIAction)
         picker.showsMenuAsPrimaryAction = true
         picker.changesSelectionAsPrimaryAction = true // disable to manually set title
         return picker
@@ -167,13 +151,14 @@ class ControlPanel: UIView {
     // MARK: Keymap
     private lazy var keymapPicker = {
         let picker = UIButton(configuration: .bordered())
+        picker.setTitleColor(.white, for: .highlighted)
+        picker.setTitleColor(.white, for: .normal)
         picker.menu = UIMenu(options: .singleSelection, children: Keymap.builtin.map { keymap in
             UIAction(title: keymap.name) { _ in
-                Globals.activeKeymap = keymap
-                self.keyboard.changeKeymap(keymap)
+                Keyboard.keymapChangedNotif.post(value: keymap)
+                AudioEngine.tuningChangedNotif.post(value: keymap.tuning)
             }
         })
-        keyboard.changeKeymap(Globals.activeKeymap) // default keymap
         picker.showsMenuAsPrimaryAction = true
         picker.changesSelectionAsPrimaryAction = true
         return picker
@@ -206,6 +191,9 @@ class ControlPanel: UIView {
     private var layoutPicker = {
         let sc = UISegmentedControl(frame: .zero, actions: [
             UIAction(title: "Lumatone", image: nil) { _ in
+                // switch
+            },
+            UIAction(title: "InfHex", image: nil) { _ in
                 // switch
             }
         ])

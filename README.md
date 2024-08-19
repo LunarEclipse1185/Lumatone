@@ -1,6 +1,6 @@
 an isometric microtonal keyboard aiming to recreate Lumatone on ios devices
 
-! gui only adapted for iPad Gen 9, which i own
+! UI only tested for iPad Gen 9, which i own
 
  # Features
  
