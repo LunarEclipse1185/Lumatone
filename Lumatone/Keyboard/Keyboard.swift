@@ -23,10 +23,12 @@ class Keyboard: UIView {
     // notifications
     static let keymapChangedNotif = TypedNotification<Keymap>(name: "keymapChanged")
     static let velocityChangedNotif = TypedNotification<UInt8>(name: "velocityChanged")
+    static let multiPressChangedNotif = TypedNotification<Bool>(name: "multiPressChanged")
     
     // observers
     private var keymapChangedNotifier: NotificationObserver?
     private var velocityChangedNotifier: NotificationObserver?
+    private var multiPressChangedNotifier: NotificationObserver?
     
     // components
     private var audioEngine: AudioEngine
@@ -66,9 +68,9 @@ class Keyboard: UIView {
         super.init(frame: .zero)
         
         self.backgroundColor = #colorLiteral(red: 0.8770987988, green: 0.8770987988, blue: 0.8770987988, alpha: 1)
-        //self.backgroundColor = #colorLiteral(red: 0.6645953655, green: 0.6645954251, blue: 0.6645953655, alpha: 1)
-        bounds.origin.x = -1 // set signal for initializing
         self.isMultipleTouchEnabled = true
+        bounds.origin.x = UserDefaults.standard.object(forKey: "keyboardPositionX_Double") as? Double
+                          ?? -1 // set signal for initializing
         
         keys.forEach { $0.forEach { addSubview($0) } }
         addSubview(lockButton)
@@ -82,6 +84,12 @@ class Keyboard: UIView {
         velocityChangedNotifier = Self.velocityChangedNotif.registerOnAny { [weak self] vel in
             self?.velocity = vel
         }
+//        multiPressChangedNotifier = Self.multiPressChangedNotif.registerOnAny { [weak self] value in
+//            self?.multiPressEnabled = value
+//        }
+        NotificationCenter.default.addObserver(forName: .multiPressChanged, object: nil, queue: nil) { note in
+            self.multiPressEnabled = note.userInfo?["value"] as! Bool
+        }
     }
     
     func stopAllNotes() {
@@ -93,8 +101,9 @@ class Keyboard: UIView {
     
     private var contentWidth: CGFloat = 0 // change to contentSize: CGRect if support zooming
     // below two meant to be changed by instance owner
-    var scale: CGFloat = 1.0 {
+    var scale: CGFloat! {
         didSet { // adjust keyb position so that the middle point stays still
+            if oldValue == nil { return } // when setting init value
             bounds.origin.x = clamp(-frame.width / 2 + (bounds.origin.x + frame.width / 2) * scale / oldValue, 0, contentWidth - frame.width)
         }
     }
@@ -138,11 +147,10 @@ class Keyboard: UIView {
     var multiPressEnabled: Bool = true
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // TODO: only search visible keys
         if !lockButton.locked { return }
         for touch in touches {
             touchedKeys[touch] = Set<Key>() // create empty set
-            var minDistKey: Key!
+            var minDistKey: Key?
             var minDistSq = CGFloat.infinity
             for row in keys { for key in row {
                 let distSq = CGPointDistanceSquared(touch.location(in: self), key.frame.origin)
@@ -155,8 +163,8 @@ class Keyboard: UIView {
             }}
             if multiPressEnabled {
                 touchedKeys[touch]?.forEach { pressKey($0) }
-            } else {
-                pressKey(minDistKey)
+            } else if let key = minDistKey {
+                pressKey(key)
             }
         }
     }
@@ -175,11 +183,11 @@ class Keyboard: UIView {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // TODO: add dragging play mode
         if lockButton.locked { return }
         bounds.origin.x -= touches.first!.location(in: self).x - touches.first!.previousLocation(in: self).x
         bounds.origin.x = clamp(bounds.origin.x, 0, contentWidth - frame.width)
-        // add inertia
+        UserDefaults.standard.set(bounds.origin.x, forKey: "keyboardPositionX_Double")
+        // TODO: add inertia
     }
     
     private func pressKey(_ key: Key) {

@@ -12,7 +12,7 @@ class AudioEngine {
     static let pitchBendChangedNotif = TypedNotification<Float>(name: "pitchBendChanged")
     static let masterGainChangedNotif = TypedNotification<Float>(name: "masterGainChanged") // unused
     static let tuningChangedNotif = TypedNotification<Int>(name: "tuningChanged")
-    static let presetIndexChangedNotif = TypedNotification<UInt8>(name: "presetIndexChanged")
+    static let presetIndexChangedNotif = TypedNotification<UInt16>(name: "presetIndexChanged")
     
     // observers
     private var pitchBendChangedNotifier: NotificationObserver?
@@ -24,30 +24,35 @@ class AudioEngine {
     private var engine = AVAudioEngine()
     var synths: [AVAudioUnitSampler] = []
     
+    // setup
     func setupEngine() {
-        //synth = AVAudioUnitSampler()
         
-        //let synth = self.synth!
+        setupAudioSession()
         
         //let hardwareFormat = engine.outputNode.outputFormat(forBus: 0)
         //engine.connect(engine.mainMixerNode, to: engine.outputNode, format: hardwareFormat)
         createSynth() // for 12edo
         engine.prepare()
-
         do {
             try engine.start()
         } catch let error as NSError {
             print("engine start error ", error.description)
         }
         
-        setupAudioSession()
-        
+        // observers
         pitchBendChangedNotifier = Self.pitchBendChangedNotif.registerOnAny(block: setPitchBend(_:))
         masterGainChangedNotifier = Self.masterGainChangedNotif.registerOnAny(block: setMasterGain(_:))
         tuningChangedNotifier = Self.tuningChangedNotif.registerOnAny { [weak self] edo in
             self?.edo = edo
         }
-        presetIndexChangedNotifier = Self.presetIndexChangedNotif.registerOnAny(block: loadInstrument(presetIndex:))
+        presetIndexChangedNotifier = Self.presetIndexChangedNotif.registerOnAny { [weak self] index in
+            self?.presetIndex = (UInt8(index / 1<<8), UInt8(index % 1<<8)) // bank, preset
+        }
+        NotificationCenter.default.addObserver(forName: .soundfontChanged, object: nil, queue: nil) { _ in
+            DispatchQueue.global().async {
+                self.soundbankUrl = Self.UserDefaultsResolveSoundbankUrl()
+            }
+        }
     }
     private func setPitchBend(_ value: Float) {
         for synth in synths {
@@ -59,7 +64,6 @@ class AudioEngine {
             synth.overallGain = value
         }
     }
-    
     
     func setupAudioSession() {
         let audioSession = AVAudioSession.sharedInstance()
@@ -88,42 +92,116 @@ class AudioEngine {
         engine.reset()
     }
     
-    
-    private func createSynth(withTuning cents: Float = 0) {
-        let synth = AVAudioUnitSampler()
-        synth.globalTuning = cents
-        synths.append(synth)
-        
-        engine.attach(synth)
-        engine.connect(synth, to: engine.mainMixerNode, format: nil)
-        
-        loadInstrument(synth)
+    // instrument info
+    var soundbankUrl: URL! {
+        didSet {
+            if let url = soundbankUrl {
+                if oldValue != nil && url == oldValue { // unchanged
+                    print("soundbank is set but not changed")
+                    return
+                }
+                if !url.startAccessingSecurityScopedResource() { return }
+                print("changing soundbank (async)")
+                synths.forEach { loadPresetAsync(at: presetIndex, for: $0) }
+                url.stopAccessingSecurityScopedResource()
+            }
+        }
     }
-    
-    func loadInstrument(presetIndex: UInt8 = 0) { // add url param in the future
-        for synth in synths {
-            loadInstrument(synth, presetIndex: presetIndex)
+    var presetIndex: (UInt8, UInt8) = (0, 0) {
+        didSet {
+            if let url = soundbankUrl {
+                if url.startAccessingSecurityScopedResource() {
+                    print("changing preset (async)")
+                    synths.forEach { loadPresetAsync(at: presetIndex, for: $0) }
+                    url.stopAccessingSecurityScopedResource()
+                }
+            }
         }
     }
     
-    private func loadInstrument(_ synth: AVAudioUnitSampler, presetIndex: UInt8 = 0) {
-        guard let bankURL = Bundle.main.url(forResource: "YamahaGrand", withExtension: "sf2")
-            else { fatalError("load soundfont failed") }
-        
+    
+    // manipulating engine structure
+    static func UserDefaultsResolveSoundbankUrl() -> URL {
         do {
-            try synth.loadSoundBankInstrument(
-                at: bankURL,
-                program: presetIndex,
-                bankMSB: UInt8(kAUSampler_DefaultMelodicBankMSB),
-                bankLSB: UInt8(kAUSampler_DefaultBankLSB))
-        } catch let error as NSError {
-            switch error.code {
-            case -43: // not found
-                print("SF2 file not found")
-            case -54: // permission error for SF2 file
-                print("permission error for SF2 file")
-            default:
-              break
+            if let data = UserDefaults.standard.object(forKey: "soundfontFileUrl_Data") as? Data { // read url data
+                print("retrieved url bookmark: \(data)")
+                var stale: Bool = false
+                let fileUrl = try URL(resolvingBookmarkData: data, bookmarkDataIsStale: &stale)
+                if stale {
+                    print("updating stale bookmark")
+                    UserDefaults.standard.set(try fileUrl.bookmarkData(), forKey: "soundfontFileUrl_Data")
+                }
+                print("resolve from bookmark succeeded: \(fileUrl)")
+                return fileUrl // success
+            }
+        } catch let error {
+            // if fail to locate file, eg file moved during 2 statements
+            // fallthrough
+            print("caught error \(error)")
+        }
+        
+        // all fail situation OR first time run
+        guard let defaultUrl = Bundle.main.url(forResource: "YamahaGrand", withExtension: "sf2") else {
+            fatalError("built-in soundfont is unavailable")
+        }
+        UserDefaults.standard.set(try! defaultUrl.bookmarkData(), forKey: "soundfontFileUrl_Data")
+        print("first time run or file moved during code execution, using built-in soundfont")
+        return defaultUrl
+    }
+//    static func UserDefaultsGetSoundbankUrl() -> URL {
+//        var url = UserDefaults.standard.url(forKey: "soundfontFileUrl_URL")
+//        print("get url: ", url?.absoluteString ?? "nil")
+//        if let url2 = url {
+//            if url2.startAccessingSecurityScopedResource() {
+//                //print("start access")
+//                if !FileManager.default.fileExists(atPath: url2.path()) {
+//                    print("file from UserDefaults does not exist")
+//                    url = Bundle.main.url(forResource: "YamahaGrand", withExtension: "sf2")
+//                }
+//                url2.stopAccessingSecurityScopedResource()
+//                //print("end access")
+//            }
+//        } else {
+//            url = Bundle.main.url(forResource: "YamahaGrand", withExtension: "sf2")
+//        }
+//        guard let url2 = url else { fatalError("built-in soundfont not available") }
+//        return url2
+//    }
+    
+    private func createSynth(withTuning cents: Float = 0) {
+        let newSynth = AVAudioUnitSampler()
+        newSynth.globalTuning = cents
+        synths.append(newSynth)
+        
+        engine.attach(newSynth)
+        engine.connect(newSynth, to: engine.mainMixerNode, format: nil)
+        
+        DispatchQueue.global().async {
+            self.loadPresetAsync(at: self.presetIndex, for: newSynth)
+        }
+    }
+    
+    private func loadPresetAsync(at index: (UInt8, UInt8), for synth: AVAudioUnitSampler) { // recommend to call async'ly
+        DispatchQueue.global().async {
+            let (bank, preset) = index
+            if self.soundbankUrl == nil {
+                self.soundbankUrl = Self.UserDefaultsResolveSoundbankUrl() // costly
+            }
+            do {
+                try synth.loadSoundBankInstrument(
+                    at: self.soundbankUrl,
+                    program: preset,
+                    bankMSB: UInt8(bank < 128 ? kAUSampler_DefaultMelodicBankMSB : kAUSampler_DefaultPercussionBankMSB),
+                    bankLSB: bank < 128 ? bank : 0)
+            } catch let error as NSError {
+                switch error.code {
+                case -43: // not found
+                    print("SF2 file not found")
+                case -54: // permission error for SF2 file
+                    print("permission error for SF2 file")
+                default:
+                    break
+                }
             }
         }
     }
@@ -145,17 +223,17 @@ class AudioEngine {
             }
             
             for (note, synth) in synths.enumerated() {
-                synth.globalTuning = getFrac(note) * 100
+                synth.globalTuning = getFracNote(note) * 100
             }
             while synths.count < edo {
-                createSynth(withTuning: getFrac(synths.count) * 100)
+                createSynth(withTuning: getFracNote(synths.count) * 100)
             }
         }
     }
-    private func getFrac(_ note: Int) -> Float { // in cents
+    private func getFracNote(_ note: Int) -> Float { // in cents
         return Float(note)/Float(edo)*12.0 - round( Float(note)/Float(edo)*12.0 )
     }
-    private func getRepr(_ note: UInt8) -> UInt8 { // represent note in 12edo
+    private func getReprNote(_ note: UInt8) -> UInt8 { // represent note in 12edo
         return UInt8(round( Double(note)/Double(edo)*12.0 ))
     }
     
@@ -163,7 +241,7 @@ class AudioEngine {
         if edo == 12 {
             synths[0].startNote(note, withVelocity: velocity, onChannel: 0)
         } else {
-            synths[Int(note)%edo].startNote(getRepr(note), withVelocity: velocity, onChannel: 0)
+            synths[Int(note)%edo].startNote(getReprNote(note), withVelocity: velocity, onChannel: 0)
         }
     }
     
@@ -171,7 +249,7 @@ class AudioEngine {
         if edo == 12 {
             synths[0].stopNote(note, onChannel: 0)
         } else {
-            synths[Int(note)%edo].stopNote(getRepr(note), onChannel: 0)
+            synths[Int(note)%edo].stopNote(getReprNote(note), onChannel: 0)
         }
     }
     

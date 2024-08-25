@@ -1,13 +1,10 @@
 #  Todo & Outline
 
-! this file does not conform to Markdown format and is used by me as plain text file
-! viewing this file as Markdown will cause confusion
+# this file does not conform to Markdown format and is used by me as plain text file
+# viewing this file through a MD previewer will cause confusion
 
 ##  Guideline: 
-     features first, then appearance
-
-
-##  Feature Todo List:
+     function first, then appearance
 
 Keyboard:
 
@@ -31,9 +28,9 @@ x   change LockButton to Notification scheme - why?
 +   draw key color
     
     
-Control panel:
++## Control panel:
 
--   Sound Bank chooser: choose file, read presets in file, form a list
++   Sound Bank chooser: choose file, read presets in file, form a list
     
 -   Keymap picker: add a 'choose file...' segment, when selected pop up file chooser (.ltn)
 
@@ -61,15 +58,8 @@ AudioEngine:
 +   extract all Default settings to Settings class
 
 
-##  GUI Design Todo List:
+##  GUI Design:
 
-Keyboard:
-
-x   Key: programmatically draw keys, design key shape and shadow, key glow color, key press
-        animation?
-        
-x   LockButton: auto hide(1. click to show 2. pause to show, play to hide), animation
-        
 Control panel:
 
   · steal picker menu & slider & scroller from FL
@@ -88,7 +78,7 @@ Control panel:
 + migrate audio parameters update to AudioEngine, figure out a way to write #Selector from outer class
 
 
-load .ltn {
+## load .ltn {
 setup multiple channel stuff - figure out why tf channels dont work
 auto scan file { icloud?, get file names, filter }
 read file line by line
@@ -120,10 +110,10 @@ parse
 5. manual send noteOn noteOff - may work
 
 
-## bugs:
++## bugs:
 +. lockbutton note do not end
 +. set keymap note do not end
-3. in invalid preset new tuning do not apply - how to recreate?
+3. 31edo tuning do not apply - how to recreate?
 4. switch preset app freeze - how to recreate?
 
 
@@ -138,16 +128,72 @@ use full saturation color in code, multiply by a tint when rendering
 unison keys collide with each other
 possible solution: use synth queue, send pitchbend every press
 
-## solve all Globals use case
++## solve all Globals use case
 keymap: needed by key to display key number
- - user-friendly key notion
+ + user-friendly key notion
 pitch: noone need
 velocity: keyboard need
 preset: AE need
 
 
-## todo: 
-toggle multipress
++## toggle multipress
+## toggle drag note
 
-## warning:
+x## warning: (how to recreate?)
 no factory...
+
+x## delete TypedNotif, just use post with object
+
++## init values literals in controlPanel separated
+
++## change preset related var to optional, init value sent by chooserControl
+
++## position new controls
+## labeledcontrol: use recieved `frame` as including label and control, add `pct` var indicating
+the percentage the control takes up
+
+## maybe - delete lock button use uncaught drag as move command
+ - when playing, dismiss the drag
+
++# remember data:
+ use special api
+ + soundfont file (check existence, if not, use default builtin sf2)
+  + figure out why load fail
+simple key-value
+ + preset number (if soundfont changed, reset to 0)
+ + keymap, layout, velocity, multi-press
+ - keyboard position
+ 
+
+
+MARK: when opening .ltn file and creating keymap object, use postfix to avoid collision
+
+## record midi and cord shape
+
++# use FileManager to read file
+
++## parallelize soundfont loading, preset loading and key reassigning
+
++## need? .suitableForBookmarkFile
+
++## preview soundfont preset name
+by scanning file and save that **together with the md5** to a .presetnames file
+create new project for testing
+
++## preset names now depend on filesystem io to deliver between classes which is bad design
+
++## load preset names and menu index at start
+
++## soundfont chooser button label corrupted
+
+# structural rewrite: MVC, separate pure functions
+ all init value should be `empty`, initialized by central(either stored value or defaults)
+ see how others deal with this
+
+## control panel: add square-bg cog 'settings' button & popup settings viewcontroller
+
++### re-arrange ControlPanel codes
+
+## if file exists dont parse sf2
+
+## audio preset and edo does not init when app start

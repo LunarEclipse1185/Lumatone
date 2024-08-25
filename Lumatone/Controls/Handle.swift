@@ -15,9 +15,13 @@ class Handle : UIView {
     init() {
         super.init(frame: .zero)
         backgroundColor = .gray
+        // TODO: design handle UI
+        
+        // userdefault data read by ViewController
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        NotificationCenter.default.post(Notification(name: .panelHandleSwitched))
+        NotificationCenter.default.post(name: .panelHandleSwitched, object: self)
+        UserDefaults.standard.set(!UserDefaults.standard.bool(forKey: "controlPanelFolded_Bool"), forKey: "controlPanelFolded_Bool")
     }
 }

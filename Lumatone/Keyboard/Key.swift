@@ -19,11 +19,10 @@ class Key: UIView {
     private lazy var keyImageView = UIImageView(image: Key.keyImage)
     private lazy var shadowImageView = UIImageView(image: Key.shadowImage)
     private lazy var glowImageView = UIImageView(image: Key.glowImage.withTintColor(color)) // color used after inited
-    
     private lazy var noteLabel: UILabel = {
         let label = UILabel(frame: keyImageView.frame)
         return label
-      }()
+    }()
     
     // states
     var note: UInt8 = 0
@@ -41,27 +40,13 @@ class Key: UIView {
     var scale: CGFloat = 1.0 {
         didSet {
             if scale == oldValue { return }
-            
             // scaling
-            for view in [keyImageView, glowImageView, noteLabel] {
+            for view in subviews {
                 view.frame.size.width *= scale / oldValue
                 view.frame.size.height *= scale / oldValue
             }
-            // scaling label, copying all attrs
+            // scaling label font
             updateLabel()
-            /*let newText = noteLabel.attributedText?.mutableCopy() as! NSMutableAttributedString
-            noteLabel.attributedText?.enumerateAttributes(in: NSRange(location: 0, length: noteLabel.attributedText?.length ?? 0)) { dict, range, _ in
-                for (key, value) in dict {
-                    if let font = value as? UIFont {
-                        newText.setAttributes([.font : font.withSize(font.pointSize * scale / oldValue)], range: range)
-                        continue
-                    }
-                    newText.setAttributes([key : value], range: range)
-                }
-            }
-            noteLabel.attributedText = newText*/
-            
-                    
             // positioning
             setNeedsLayout()
         }
@@ -72,13 +57,6 @@ class Key: UIView {
     
     init() {
         super.init(frame: CGRect(origin: .zero, size: Key.shadowImage.size))
-        
-        for view in [shadowImageView, keyImageView, glowImageView] {
-            view.frame.origin.x = -view.frame.size.width / 2;
-            view.frame.origin.y = -view.frame.size.height / 2;
-        }
-        shadowImageView.frame.origin.y += 10.5
-        
         addSubview(shadowImageView)
         addSubview(keyImageView)
         addSubview(glowImageView)
@@ -102,8 +80,10 @@ class Key: UIView {
     
     override func layoutSubviews() {
         // positioning
-        for view in [keyImageView, glowImageView, noteLabel] {
-            view.frame.origin.y = -view.frame.size.height / 2 + (pressed ? 4.5 : 0)
+        for view in subviews {
+            view.frame.origin.x = -view.frame.size.width / 2;
+            view.frame.origin.y = -view.frame.size.height / 2 + (pressed ? 4.5 : 0) * scale
         }
+        shadowImageView.frame.origin.y += 10.5 * scale
     }
 }

@@ -62,7 +62,7 @@ extension NoteLabel { // note label data
             musical: true)
     }
     
-    static let symbol31: LabelMapping = { // todo
+    static let symbol31: LabelMapping = {
         return format(
             ["C", "C"+ssh, "C"+sh,
              "D"+fl, "D"+sfl, "D", "D"+ssh, "D"+sh,

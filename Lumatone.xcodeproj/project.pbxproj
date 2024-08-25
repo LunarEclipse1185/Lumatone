@@ -16,17 +16,14 @@
 		F70964532C1DDD5E00B3BEAD /* Base in Resources */ = {isa = PBXBuildFile; fileRef = F70964522C1DDD5E00B3BEAD /* Base */; };
 		F709647B2C1ED30F00B3BEAD /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = F709647A2C1ED30F00B3BEAD /* Key.swift */; };
 		F70E79602C71F54500DDFEF7 /* Bravura.otf in Resources */ = {isa = PBXBuildFile; fileRef = F70E795E2C71F54500DDFEF7 /* Bravura.otf */; };
-		F70E79612C71F54500DDFEF7 /* BravuraText.otf in Resources */ = {isa = PBXBuildFile; fileRef = F70E795F2C71F54500DDFEF7 /* BravuraText.otf */; };
 		F70E79632C731BD100DDFEF7 /* LabeledControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70E79622C731BD100DDFEF7 /* LabeledControl.swift */; };
 		F72D4CE72C6F451D00220105 /* Handle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72D4CE62C6F451D00220105 /* Handle.swift */; };
 		F72D4CE92C70EB0E00220105 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72D4CE82C70EB0E00220105 /* Notification.swift */; };
 		F72D4CEB2C70EDE300220105 /* TypedNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72D4CEA2C70EDE300220105 /* TypedNotification.swift */; };
+		F74A05C92C7A78BC003CDFBC /* SF2Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74A05C82C7A78BC003CDFBC /* SF2Parser.swift */; };
 		F74AD8BB2C2F002C00C2AD02 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74AD8BA2C2F002C00C2AD02 /* Utils.swift */; };
-		F74AD8BF2C31657300C2AD02 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74AD8BE2C31657300C2AD02 /* KeyboardLayout.swift */; };
-		F7B4FFB02C43CC9300BAD4C3 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B4FFAF2C43CC9000BAD4C3 /* Preview.swift */; };
 		F7CE8BEE2C71AE0B0091A9B7 /* NoteLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CE8BED2C71AE0B0091A9B7 /* NoteLabel.swift */; };
 		F7E3C1B92C208C9400DDD1CB /* YamahaGrand.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */; };
-		F7E3C1BF2C2130A600DDD1CB /* SoundfontChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1BE2C2130A600DDD1CB /* SoundfontChooser.swift */; };
 		F7E3C1C82C21312100DDD1CB /* LockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1C72C21312100DDD1CB /* LockButton.swift */; };
 		F7E3C1F42C21C11900DDD1CB /* Keymap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F32C21C11900DDD1CB /* Keymap.swift */; };
 		F7E3C1F82C21CF5000DDD1CB /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F72C21CF5000DDD1CB /* Keyboard.swift */; };
@@ -60,23 +57,21 @@
 		F70964542C1DDD5E00B3BEAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F709647A2C1ED30F00B3BEAD /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		F70E795E2C71F54500DDFEF7 /* Bravura.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravura.otf; sourceTree = "<group>"; };
-		F70E795F2C71F54500DDFEF7 /* BravuraText.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BravuraText.otf; sourceTree = "<group>"; };
 		F70E79622C731BD100DDFEF7 /* LabeledControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledControl.swift; sourceTree = "<group>"; };
 		F72D4CE62C6F451D00220105 /* Handle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handle.swift; sourceTree = "<group>"; };
 		F72D4CE82C70EB0E00220105 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		F72D4CEA2C70EDE300220105 /* TypedNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypedNotification.swift; sourceTree = "<group>"; };
 		F73354482C648315000979D6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F74A05C82C7A78BC003CDFBC /* SF2Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SF2Parser.swift; sourceTree = "<group>"; };
 		F74AD8BA2C2F002C00C2AD02 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		F74AD8BE2C31657300C2AD02 /* KeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayout.swift; sourceTree = "<group>"; };
-		F7B4FFAF2C43CC9000BAD4C3 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		F7CE8BED2C71AE0B0091A9B7 /* NoteLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteLabel.swift; sourceTree = "<group>"; };
 		F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = YamahaGrand.sf2; sourceTree = "<group>"; };
-		F7E3C1BE2C2130A600DDD1CB /* SoundfontChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundfontChooser.swift; sourceTree = "<group>"; };
 		F7E3C1C72C21312100DDD1CB /* LockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockButton.swift; sourceTree = "<group>"; };
 		F7E3C1F32C21C11900DDD1CB /* Keymap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keymap.swift; sourceTree = "<group>"; };
 		F7E3C1F72C21CF5000DDD1CB /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		F7E3C1F92C21DB3C00DDD1CB /* ControlPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanel.swift; sourceTree = "<group>"; };
 		F7E3C21B2C21E59C00DDD1CB /* AudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
+		F7E40E9B2C7A7EE30071B526 /* Lumatone.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Lumatone.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +107,7 @@
 		F70964422C1DDD5C00B3BEAD /* Lumatone */ = {
 			isa = PBXGroup;
 			children = (
-				F7B4FFAF2C43CC9000BAD4C3 /* Preview.swift */,
+				F7E40E9B2C7A7EE30071B526 /* Lumatone.entitlements */,
 				F70964432C1DDD5C00B3BEAD /* AppDelegate.swift */,
 				F70964452C1DDD5C00B3BEAD /* SceneDelegate.swift */,
 				F74AD8B92C2F000F00C2AD02 /* Global */,
@@ -132,6 +127,8 @@
 			children = (
 				F7E3C1F72C21CF5000DDD1CB /* Keyboard.swift */,
 				F709647A2C1ED30F00B3BEAD /* Key.swift */,
+				F7E3C1F32C21C11900DDD1CB /* Keymap.swift */,
+				F7CE8BED2C71AE0B0091A9B7 /* NoteLabel.swift */,
 				F7E3C1C72C21312100DDD1CB /* LockButton.swift */,
 			);
 			path = Keyboard;
@@ -143,6 +140,7 @@
 				F70964472C1DDD5C00B3BEAD /* ViewController.swift */,
 				F7E3C21B2C21E59C00DDD1CB /* AudioEngine.swift */,
 				F74AD8BA2C2F002C00C2AD02 /* Utils.swift */,
+				F74A05C82C7A78BC003CDFBC /* SF2Parser.swift */,
 				F72D4CE82C70EB0E00220105 /* Notification.swift */,
 				F72D4CEA2C70EDE300220105 /* TypedNotification.swift */,
 			);
@@ -153,7 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				F70E795E2C71F54500DDFEF7 /* Bravura.otf */,
-				F70E795F2C71F54500DDFEF7 /* BravuraText.otf */,
 				F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */,
 			);
 			path = Resources;
@@ -165,10 +162,6 @@
 				F7E3C1F92C21DB3C00DDD1CB /* ControlPanel.swift */,
 				F70E79622C731BD100DDFEF7 /* LabeledControl.swift */,
 				F72D4CE62C6F451D00220105 /* Handle.swift */,
-				F7E3C1F32C21C11900DDD1CB /* Keymap.swift */,
-				F7CE8BED2C71AE0B0091A9B7 /* NoteLabel.swift */,
-				F74AD8BE2C31657300C2AD02 /* KeyboardLayout.swift */,
-				F7E3C1BE2C2130A600DDD1CB /* SoundfontChooser.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -240,7 +233,6 @@
 				F70E79602C71F54500DDFEF7 /* Bravura.otf in Resources */,
 				F7E3C1B92C208C9400DDD1CB /* YamahaGrand.sf2 in Resources */,
 				F70964532C1DDD5E00B3BEAD /* Base in Resources */,
-				F70E79612C71F54500DDFEF7 /* BravuraText.otf in Resources */,
 				F709644B2C1DDD5C00B3BEAD /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,7 +245,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7E3C21C2C21E59C00DDD1CB /* AudioEngine.swift in Sources */,
-				F7B4FFB02C43CC9300BAD4C3 /* Preview.swift in Sources */,
 				F709647B2C1ED30F00B3BEAD /* Key.swift in Sources */,
 				F72D4CE72C6F451D00220105 /* Handle.swift in Sources */,
 				F7CE8BEE2C71AE0B0091A9B7 /* NoteLabel.swift in Sources */,
@@ -261,12 +252,11 @@
 				F70964482C1DDD5C00B3BEAD /* ViewController.swift in Sources */,
 				F70964442C1DDD5C00B3BEAD /* AppDelegate.swift in Sources */,
 				F7E3C1F82C21CF5000DDD1CB /* Keyboard.swift in Sources */,
-				F7E3C1BF2C2130A600DDD1CB /* SoundfontChooser.swift in Sources */,
+				F74A05C92C7A78BC003CDFBC /* SF2Parser.swift in Sources */,
 				F709644E2C1DDD5C00B3BEAD /* Lumatone.xcdatamodeld in Sources */,
 				F7E3C1FA2C21DB3C00DDD1CB /* ControlPanel.swift in Sources */,
 				F7E3C1C82C21312100DDD1CB /* LockButton.swift in Sources */,
 				F7E3C1F42C21C11900DDD1CB /* Keymap.swift in Sources */,
-				F74AD8BF2C31657300C2AD02 /* KeyboardLayout.swift in Sources */,
 				F74AD8BB2C2F002C00C2AD02 /* Utils.swift in Sources */,
 				F72D4CEB2C70EDE300220105 /* TypedNotification.swift in Sources */,
 				F70964462C1DDD5C00B3BEAD /* SceneDelegate.swift in Sources */,
@@ -420,6 +410,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Lumatone/Lumatone.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5M9GM5HK46;
@@ -434,6 +425,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -455,6 +447,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Lumatone/Lumatone.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5M9GM5HK46;
@@ -469,6 +462,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
