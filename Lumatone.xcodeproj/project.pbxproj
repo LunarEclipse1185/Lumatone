@@ -20,6 +20,7 @@
 		F72D4CE72C6F451D00220105 /* Handle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72D4CE62C6F451D00220105 /* Handle.swift */; };
 		F72D4CE92C70EB0E00220105 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72D4CE82C70EB0E00220105 /* Notification.swift */; };
 		F72D4CEB2C70EDE300220105 /* TypedNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72D4CEA2C70EDE300220105 /* TypedNotification.swift */; };
+		F734A3EE2C7C2A720033D9C8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F734A3ED2C7C2A720033D9C8 /* Settings.swift */; };
 		F74A05C92C7A78BC003CDFBC /* SF2Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74A05C82C7A78BC003CDFBC /* SF2Parser.swift */; };
 		F74AD8BB2C2F002C00C2AD02 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74AD8BA2C2F002C00C2AD02 /* Utils.swift */; };
 		F7CE8BEE2C71AE0B0091A9B7 /* NoteLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CE8BED2C71AE0B0091A9B7 /* NoteLabel.swift */; };
@@ -62,6 +63,7 @@
 		F72D4CE82C70EB0E00220105 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		F72D4CEA2C70EDE300220105 /* TypedNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypedNotification.swift; sourceTree = "<group>"; };
 		F73354482C648315000979D6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F734A3ED2C7C2A720033D9C8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		F74A05C82C7A78BC003CDFBC /* SF2Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SF2Parser.swift; sourceTree = "<group>"; };
 		F74AD8BA2C2F002C00C2AD02 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		F7CE8BED2C71AE0B0091A9B7 /* NoteLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteLabel.swift; sourceTree = "<group>"; };
@@ -111,8 +113,10 @@
 				F70964432C1DDD5C00B3BEAD /* AppDelegate.swift */,
 				F70964452C1DDD5C00B3BEAD /* SceneDelegate.swift */,
 				F74AD8B92C2F000F00C2AD02 /* Global */,
-				F70964772C1ED2A700B3BEAD /* Keyboard */,
+				F7FD59692C80CB7A00BAA95C /* Audio */,
 				F7E3C1C42C2130E200DDD1CB /* Controls */,
+				F70964772C1ED2A700B3BEAD /* Keyboard */,
+				F734A4022C7D84CC0033D9C8 /* Popup */,
 				F70964512C1DDD5E00B3BEAD /* LaunchScreen.storyboard */,
 				F70964492C1DDD5C00B3BEAD /* Main.storyboard */,
 				F709644F2C1DDD5E00B3BEAD /* Assets.xcassets */,
@@ -134,13 +138,19 @@
 			path = Keyboard;
 			sourceTree = "<group>";
 		};
+		F734A4022C7D84CC0033D9C8 /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				F734A3ED2C7C2A720033D9C8 /* Settings.swift */,
+			);
+			path = Popup;
+			sourceTree = "<group>";
+		};
 		F74AD8B92C2F000F00C2AD02 /* Global */ = {
 			isa = PBXGroup;
 			children = (
 				F70964472C1DDD5C00B3BEAD /* ViewController.swift */,
-				F7E3C21B2C21E59C00DDD1CB /* AudioEngine.swift */,
 				F74AD8BA2C2F002C00C2AD02 /* Utils.swift */,
-				F74A05C82C7A78BC003CDFBC /* SF2Parser.swift */,
 				F72D4CE82C70EB0E00220105 /* Notification.swift */,
 				F72D4CEA2C70EDE300220105 /* TypedNotification.swift */,
 			);
@@ -164,6 +174,15 @@
 				F72D4CE62C6F451D00220105 /* Handle.swift */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		F7FD59692C80CB7A00BAA95C /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				F7E3C21B2C21E59C00DDD1CB /* AudioEngine.swift */,
+				F74A05C82C7A78BC003CDFBC /* SF2Parser.swift */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +280,7 @@
 				F72D4CEB2C70EDE300220105 /* TypedNotification.swift in Sources */,
 				F70964462C1DDD5C00B3BEAD /* SceneDelegate.swift in Sources */,
 				F72D4CE92C70EB0E00220105 /* Notification.swift in Sources */,
+				F734A3EE2C7C2A720033D9C8 /* Settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

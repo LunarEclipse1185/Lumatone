@@ -19,28 +19,43 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
     override func viewDidLoad() {
         print("viewDidLoad")
         audioEngine = AudioEngine()
+        audioEngine.setupEngine()
+        print("audio setup")
         keyboard = Keyboard(audioEngine) // TODO: SLOW
         controlPanel = ControlPanel() // all init value sent here
         print("subviews created")
         
-        DispatchQueue.global().async {
-            self.audioEngine.setupEngine()
-            print("audio setup")
-        }
-        // setup engine is costly. parallelized.
+//        DispatchQueue.global().async {
+//        }
+//        // setup engine is costly. parallelized. **NO.**
         
         super.viewDidLoad()
         
+        // somehow not working
         let sframe = view.safeAreaLayoutGuide.layoutFrame
         controlPanel.frame = CGRectMake(sframe.minX, sframe.minY, sframe.width, 0.25 * sframe.height)
         keyboard.frame = CGRectMake(sframe.minX, sframe.minY + 0.25 * sframe.height, sframe.width, 0.75 * sframe.height)
-        controlPanel.linkDocumentPicker(showDocumentPicker)
         
         view.addSubview(keyboard)
         view.addSubview(controlPanel)
         
-        // notification
+        // observers
         NotificationCenter.default.addObserver(forName: .panelHandleSwitched, object: nil, queue: nil, using: switchLayout(_:))
+        
+        NotificationCenter.default.addObserver(forName: .showDocumentPicker, object: nil, queue: nil) { _ in
+            let controller = UIDocumentPickerViewController(forOpeningContentTypes: UTType.types(tag: "sf2", tagClass: UTTagClass.filenameExtension, conformingTo: nil))
+            controller.delegate = self
+            self.present(controller, animated: true)
+        }
+        
+        NotificationCenter.default.addObserver(forName: .showSettings, object: nil, queue: nil) { _ in
+            let controller = SettingsNavigationController()
+            controller.modalPresentationStyle = .formSheet
+            // formSheet = small, pageSheet = big
+            self.present(controller, animated: true)
+        }
+        
+        // TODO: noti....showhelp
         
         // read stored value
         if UserDefaults.standard.bool(forKey: "controlPanelFolded_Bool") {
@@ -75,23 +90,11 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
         keyboard.padding = folded ? 0.7 : 0.0
     }
     
-    // file chooser impl
-    
-    let doxy = UIDocumentPickerViewController(forOpeningContentTypes:
-        UTType.types(tag: "sf2", tagClass: UTTagClass.filenameExtension, conformingTo: nil))
-    private func showDocumentPicker() {
-        doxy.delegate = self
-        present(doxy, animated: true, completion: nil)
-    }
-    
+    // impl file picker
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
         print("user selected file: \(url)")
         controlPanel.recievedFileUrl(url)
     }
     
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        print("file selection cancelled")
-        dismiss(animated: true, completion: nil)
-    }
 }

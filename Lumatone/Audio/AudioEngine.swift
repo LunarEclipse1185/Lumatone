@@ -10,25 +10,42 @@ import AVFoundation
 class AudioEngine {
     // notification templates
     static let pitchBendChangedNotif = TypedNotification<Float>(name: "pitchBendChanged")
-    static let masterGainChangedNotif = TypedNotification<Float>(name: "masterGainChanged") // unused
+//    static let masterGainChangedNotif = TypedNotification<Float>(name: "masterGainChanged") // unused
     static let tuningChangedNotif = TypedNotification<Int>(name: "tuningChanged")
     static let presetIndexChangedNotif = TypedNotification<UInt16>(name: "presetIndexChanged")
-    
-    // observers
-    private var pitchBendChangedNotifier: NotificationObserver?
-    private var masterGainChangedNotifier: NotificationObserver?
-    private var tuningChangedNotifier: NotificationObserver?
-    private var presetIndexChangedNotifier: NotificationObserver?
     
     // components
     private var engine = AVAudioEngine()
     var synths: [AVAudioUnitSampler] = []
     
+    // audio
+    var pitchBend: Float = 0 {
+        didSet { synths.forEach { $0.globalTuning = pitchBend } }
+    }
+    
     // setup
+    init() {
+        // observers
+        Self.pitchBendChangedNotif.registerOnAny { [weak self] value in
+            self?.pitchBend = value
+        }
+//        masterGainChangedNotifier = Self.masterGainChangedNotif.registerOnAny(block: setMasterGain(_:))
+        Self.tuningChangedNotif.registerOnAny { [weak self] edo in
+            self?.edo = edo
+        }
+        Self.presetIndexChangedNotif.registerOnAny { [weak self] index in
+            self?.presetIndex = (UInt8(index >> 8), UInt8(index % 1<<8)) // bank, preset
+//            print("preset index changed to \(self?.presetIndex)")
+        }
+        NotificationCenter.default.addObserver(forName: .soundfontChanged, object: nil, queue: nil) { _ in
+            DispatchQueue.global().async {
+                self.soundbankUrl = Self.UserDefaultsResolveSoundbankUrl()
+            }
+        }
+    }
+    
     func setupEngine() {
-        
         setupAudioSession()
-        
         //let hardwareFormat = engine.outputNode.outputFormat(forBus: 0)
         //engine.connect(engine.mainMixerNode, to: engine.outputNode, format: hardwareFormat)
         createSynth() // for 12edo
@@ -38,31 +55,6 @@ class AudioEngine {
         } catch let error as NSError {
             print("engine start error ", error.description)
         }
-        
-        // observers
-        pitchBendChangedNotifier = Self.pitchBendChangedNotif.registerOnAny(block: setPitchBend(_:))
-        masterGainChangedNotifier = Self.masterGainChangedNotif.registerOnAny(block: setMasterGain(_:))
-        tuningChangedNotifier = Self.tuningChangedNotif.registerOnAny { [weak self] edo in
-            self?.edo = edo
-        }
-        presetIndexChangedNotifier = Self.presetIndexChangedNotif.registerOnAny { [weak self] index in
-            self?.presetIndex = (UInt8(index / 1<<8), UInt8(index % 1<<8)) // bank, preset
-        }
-        NotificationCenter.default.addObserver(forName: .soundfontChanged, object: nil, queue: nil) { _ in
-            DispatchQueue.global().async {
-                self.soundbankUrl = Self.UserDefaultsResolveSoundbankUrl()
-            }
-        }
-    }
-    private func setPitchBend(_ value: Float) {
-        for synth in synths {
-            synth.globalTuning = value
-        }
-    }
-    private func setMasterGain(_ value: Float) {
-        for synth in synths {
-            synth.overallGain = value
-        }
     }
     
     func setupAudioSession() {
@@ -70,11 +62,10 @@ class AudioEngine {
         do {
             try audioSession.setCategory(AVAudioSession.Category.playback, options:
                                         AVAudioSession.CategoryOptions.mixWithOthers)
-            } catch {
-                print("couldn't set category \(error)")
-                return
-            }
-            
+        } catch {
+            print("couldn't set category \(error)")
+            return
+        }
         do {
             try audioSession.setActive(true)
         } catch {
@@ -101,17 +92,18 @@ class AudioEngine {
                     return
                 }
                 if !url.startAccessingSecurityScopedResource() { return }
-                print("changing soundbank (async)")
+                print("async changing soundbank to \(url.lastPathComponent), keeping preset index \(presetIndex)")
                 synths.forEach { loadPresetAsync(at: presetIndex, for: $0) }
                 url.stopAccessingSecurityScopedResource()
             }
         }
     }
-    var presetIndex: (UInt8, UInt8) = (0, 0) {
+    var presetIndex: (UInt8, UInt8) = (UInt8(UserDefaults.standard.integer(forKey: "presetIndex_Int") >> 8),
+                                       UInt8(UserDefaults.standard.integer(forKey: "presetIndex_Int") % 1<<8)) {
         didSet {
             if let url = soundbankUrl {
                 if url.startAccessingSecurityScopedResource() {
-                    print("changing preset (async)")
+                    print("async changing preset to \(presetIndex)")
                     synths.forEach { loadPresetAsync(at: presetIndex, for: $0) }
                     url.stopAccessingSecurityScopedResource()
                 }
@@ -120,18 +112,18 @@ class AudioEngine {
     }
     
     
-    // manipulating engine structure
+    // modifying engine structure
     static func UserDefaultsResolveSoundbankUrl() -> URL {
         do {
             if let data = UserDefaults.standard.object(forKey: "soundfontFileUrl_Data") as? Data { // read url data
-                print("retrieved url bookmark: \(data)")
+                //print("retrieved url bookmark: \(data)")
                 var stale: Bool = false
                 let fileUrl = try URL(resolvingBookmarkData: data, bookmarkDataIsStale: &stale)
                 if stale {
                     print("updating stale bookmark")
                     UserDefaults.standard.set(try fileUrl.bookmarkData(), forKey: "soundfontFileUrl_Data")
                 }
-                print("resolve from bookmark succeeded: \(fileUrl)")
+                print("resolve from bookmark succeeded: \(fileUrl.lastPathComponent)")
                 return fileUrl // success
             }
         } catch let error {
@@ -205,7 +197,6 @@ class AudioEngine {
             }
         }
     }
-    
     
     // midi api
     

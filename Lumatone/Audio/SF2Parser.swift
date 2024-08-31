@@ -12,11 +12,11 @@ class SF2Parser {
         case parsePresetNames
     }
     
-    typealias Names = [(bank: UInt8, preset: UInt8, name: String)]
+    typealias Name = (bank: UInt8, preset: UInt8, name: String)
     
     var data: Data
     var options: [Option]!
-    var namesParsed: Names = []
+    var namesParsed: [Name] = []
     
     var conformToSpec = true
     var output = "" { didSet { output += "\n" } }
@@ -27,7 +27,7 @@ class SF2Parser {
         self.data = data
     }
     
-    static func sortNames(_ names: Names) -> Names {
+    static func sortNames(_ names: [Name]) -> [Name] {
         return names.sorted { l, r in
             //(l.bank != r.bank) ? (l.bank < r.bank) : (l.preset < r.preset)
 //            r.bank == 128 ? (l.preset < r.preset)
@@ -41,7 +41,7 @@ class SF2Parser {
         }
     }
     
-    static func namesData(from names: Names) -> Data {
+    static func namesData(from names: [Name]) -> Data {
         var data = Data()
         for (b, p, n) in names {
             data.append(contentsOf: [b, p])
@@ -51,8 +51,8 @@ class SF2Parser {
         return data
     }
     
-    static func namesObject(from data: Data) -> Names {
-        var names: Names = []
+    static func namesObject(from data: Data) -> [Name] {
+        var names: [Name] = []
         var index = data.startIndex
         while index < data.endIndex { // endIndex == count and is outside bound
             names += [(bank: data[index], preset: data[index + 1], name: String(cString: data[index+2..<index+22] + [0]))]
@@ -139,7 +139,7 @@ class SF2Parser {
             fatalError("cannot read int of size \(count)")
         }
         let bytes = readBytes(count: count)
-        return bytes.enumerated().map { UInt32($1) * 1 << (8 * $0) } .reduce(UInt32(0), +)
+        return bytes.enumerated().map { UInt32($1) << (8 * $0) } .reduce(UInt32(0), +)
     }
 }
 

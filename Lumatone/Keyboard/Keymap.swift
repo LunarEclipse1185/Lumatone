@@ -44,10 +44,18 @@ class Keymap {
 extension Keymap { // builtin keymaps
     
     static let builtin: [Keymap] = [.harmonicTable12, .bosanquetWilson12, .wickiHayden12, .bosanquetWilson31]
-    static func searchBuiltinKeymap(_ name: String) -> Int? {
+    static func searchBuiltinKeymapIndex(_ name: String) -> Int? {
         for (index, keymap) in builtin.enumerated() {
             if keymap.name == name {
                 return index
+            }
+        }
+        return nil
+    }
+    static func searchBuiltinKeymap(_ name: String) -> Keymap? {
+        for keymap in builtin {
+            if keymap.name == name {
+                return keymap
             }
         }
         return nil

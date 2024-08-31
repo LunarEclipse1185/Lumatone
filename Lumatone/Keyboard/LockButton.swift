@@ -9,7 +9,9 @@ import UIKit
 
 class LockButton: UIView {
     
-    var locked = true;
+    var locked = true {
+        didSet { symbol.image = UIImage(systemName: locked ? "lock.fill" : "lock.open") }
+    }
     
     var keyboard: Keyboard?
     
@@ -25,7 +27,6 @@ class LockButton: UIView {
         
         imgV.frame.origin = CGPointMake(10, 10)
         imgV.frame.size = CGSizeMake(30, 30)
-        
         
         return imgV
     }()
@@ -55,8 +56,6 @@ class LockButton: UIView {
         self.backgroundColor = .white
         locked = !locked
         keyboard?.stopAllNotes()
-        
-        symbol.image = UIImage(systemName: locked ? "lock.fill" : "lock.open")
     }
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchesEnded(touches, with: event)

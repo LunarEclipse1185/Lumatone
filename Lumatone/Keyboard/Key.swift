@@ -26,13 +26,16 @@ class Key: UIView {
     
     // states
     var note: UInt8 = 0
-    var color: UIColor = .clear
-    var labelMapping: LabelMapping = { _ in NSAttributedString() }
+    var color: UIColor = .clear {
+        didSet { glowImageView.image = Key.glowImage.withTintColor(color) }
+    }
+    var labelMapping: LabelMapping = { _ in NSAttributedString() } {
+        didSet { updateLabel() }
+    }
     
     var pressed = false {
         didSet {
             if pressed == oldValue { return }
-            
             setNeedsLayout()
         }
     }
@@ -63,12 +66,18 @@ class Key: UIView {
         addSubview(noteLabel)
     }
     
+    convenience init(note: UInt8, color: UIColor, labelMapping: @escaping LabelMapping) {
+        self.init()
+        assign(note: note, color: color, labelMapping: labelMapping)
+    }
+    
     func assign(note: UInt8, color: UIColor, labelMapping: @escaping LabelMapping) {
-        self.glowImageView.image = Key.glowImage.withTintColor(color)
         self.note = note
         self.color = color
         self.labelMapping = labelMapping
-        updateLabel()
+    }
+    func assign(labelMapping: @escaping LabelMapping) {
+        self.labelMapping = labelMapping
     }
     
     private func updateLabel() {
@@ -82,7 +91,7 @@ class Key: UIView {
         // positioning
         for view in subviews {
             view.frame.origin.x = -view.frame.size.width / 2;
-            view.frame.origin.y = -view.frame.size.height / 2 + (pressed ? 4.5 : 0) * scale
+            view.frame.origin.y = -view.frame.size.height / 2 + (pressed && view !== shadowImageView ? 4.5 : 0) * scale
         }
         shadowImageView.frame.origin.y += 10.5 * scale
     }

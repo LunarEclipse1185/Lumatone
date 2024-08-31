@@ -58,7 +58,7 @@ AudioEngine:
 +   extract all Default settings to Settings class
 
 
-##  GUI Design:
+x##  GUI Design:
 
 Control panel:
 
@@ -76,14 +76,6 @@ Control panel:
 
 
 + migrate audio parameters update to AudioEngine, figure out a way to write #Selector from outer class
-
-
-## load .ltn {
-setup multiple channel stuff - figure out why tf channels dont work
-auto scan file { icloud?, get file names, filter }
-read file line by line
-parse
-}
 
 
 
@@ -121,13 +113,6 @@ Preset class, in which the file url and preset number is stored
 can add more info such as preset name
 
 
-## key color:
-use full saturation color in code, multiply by a tint when rendering
-
-## audio issue:
-unison keys collide with each other
-possible solution: use synth queue, send pitchbend every press
-
 +## solve all Globals use case
 keymap: needed by key to display key number
  + user-friendly key notion
@@ -137,7 +122,6 @@ preset: AE need
 
 
 +## toggle multipress
-## toggle drag note
 
 x## warning: (how to recreate?)
 no factory...
@@ -149,11 +133,7 @@ x## delete TypedNotif, just use post with object
 +## change preset related var to optional, init value sent by chooserControl
 
 +## position new controls
-## labeledcontrol: use recieved `frame` as including label and control, add `pct` var indicating
-the percentage the control takes up
 
-## maybe - delete lock button use uncaught drag as move command
- - when playing, dismiss the drag
 
 +# remember data:
  use special api
@@ -167,8 +147,6 @@ simple key-value
 
 
 MARK: when opening .ltn file and creating keymap object, use postfix to avoid collision
-
-## record midi and cord shape
 
 +# use FileManager to read file
 
@@ -186,14 +164,65 @@ create new project for testing
 
 +## soundfont chooser button label corrupted
 
-# structural rewrite: MVC, separate pure functions
+x# structural rewrite: MVC, separate pure functions
  all init value should be `empty`, initialized by central(either stored value or defaults)
  see how others deal with this
 
-## control panel: add square-bg cog 'settings' button & popup settings viewcontroller
++## control panel: add square-bg cog 'settings' button 
 
 +### re-arrange ControlPanel codes
 
-## if file exists dont parse sf2
++## if file exists dont parse sf2
 
-## audio preset and edo does not init when app start
++## audio preset and edo does not init'ed when app start
+
+## animated key press, 0.1s, ease out
+
++## move initialization to where data is stored!
+
++## presetIndex_Int unused
++## keyboard code ordering
+
++## pitch bend slider animation corrupted
+ - dont know why certain syntax doesnt work
+
+# settings
+## settings & help viewcontroller
+
++## setting - hide lock button and use uncaught drag as panning indication
+
+## setting - toggle drag note
+ - when playing, dismiss the drag
+
+
+
+## key color:
+use full saturation color in code, multiply by a tint when rendering
+
+## audio issue:
+unison keys collide with each other
+possible solution: use synth queue, send pitchbend every press
+
+
+
+## load .ltn {
+setup multiple channel stuff - figure out why tf channels dont work
+auto scan file { icloud?, get file names, filter }
+read file line by line
+parse
+}
+
+
+## labeledcontrol: use recieved `frame` as including label and control, add `pct` var indicating
+the percentage the control takes up
+
+
+
+## record midi and cord shape
+
+
+## adaptive layout in controlPanel and settings panel
+
+
+## some notifications still depend on userDefault access to deliver information
+which is bad design and (?) costly
