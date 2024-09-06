@@ -2,6 +2,8 @@ an isometric microtonal keyboard aiming to recreate Lumatone on ios devices
 
 ! UI only tested for iPad Gen 9, which i own
 
+! this document is outdated
+
  # Features
  
  - a keyboard that looks like Lumatone

@@ -35,7 +35,7 @@ class NoteLabel {
     static func format(_ str: String, musical: Bool = false) -> NSAttributedString {
         let astr = NSMutableAttributedString(string: str, attributes: [.font : fontText])
         if str.count == 2 && musical {
-            astr.addAttributes([.baselineOffset : -7], range: NSRange(location: 0, length: 1))
+            astr.addAttributes([.baselineOffset : -0.26 * fontText.pointSize], range: NSRange(location: 0, length: 1))
             astr.addAttributes([.font : fontAccidental], range: NSRange(location: 1, length: 1))
         }
         return astr

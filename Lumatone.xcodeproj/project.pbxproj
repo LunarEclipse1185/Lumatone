@@ -24,6 +24,9 @@
 		F74A05C92C7A78BC003CDFBC /* SF2Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74A05C82C7A78BC003CDFBC /* SF2Parser.swift */; };
 		F74AD8BB2C2F002C00C2AD02 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F74AD8BA2C2F002C00C2AD02 /* Utils.swift */; };
 		F7CE8BEE2C71AE0B0091A9B7 /* NoteLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CE8BED2C71AE0B0091A9B7 /* NoteLabel.swift */; };
+		F7CF01B62C85FDDA00FD1312 /* Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF01B52C85FDDA00FD1312 /* Help.swift */; };
+		F7CF01B82C89699600FD1312 /* help.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F7CF01B72C89699600FD1312 /* help.rtf */; };
+		F7CF01BA2C896AFD00FD1312 /* help.md in Resources */ = {isa = PBXBuildFile; fileRef = F7CF01B92C896AFD00FD1312 /* help.md */; };
 		F7E3C1B92C208C9400DDD1CB /* YamahaGrand.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */; };
 		F7E3C1C82C21312100DDD1CB /* LockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1C72C21312100DDD1CB /* LockButton.swift */; };
 		F7E3C1F42C21C11900DDD1CB /* Keymap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E3C1F32C21C11900DDD1CB /* Keymap.swift */; };
@@ -67,6 +70,9 @@
 		F74A05C82C7A78BC003CDFBC /* SF2Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SF2Parser.swift; sourceTree = "<group>"; };
 		F74AD8BA2C2F002C00C2AD02 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		F7CE8BED2C71AE0B0091A9B7 /* NoteLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteLabel.swift; sourceTree = "<group>"; };
+		F7CF01B52C85FDDA00FD1312 /* Help.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Help.swift; sourceTree = "<group>"; };
+		F7CF01B72C89699600FD1312 /* help.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = help.rtf; sourceTree = "<group>"; };
+		F7CF01B92C896AFD00FD1312 /* help.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = help.md; sourceTree = "<group>"; };
 		F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = YamahaGrand.sf2; sourceTree = "<group>"; };
 		F7E3C1C72C21312100DDD1CB /* LockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockButton.swift; sourceTree = "<group>"; };
 		F7E3C1F32C21C11900DDD1CB /* Keymap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keymap.swift; sourceTree = "<group>"; };
@@ -142,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				F734A3ED2C7C2A720033D9C8 /* Settings.swift */,
+				F7CF01B52C85FDDA00FD1312 /* Help.swift */,
 			);
 			path = Popup;
 			sourceTree = "<group>";
@@ -160,6 +167,8 @@
 		F7E3C1B72C208C9400DDD1CB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F7CF01B72C89699600FD1312 /* help.rtf */,
+				F7CF01B92C896AFD00FD1312 /* help.md */,
 				F70E795E2C71F54500DDFEF7 /* Bravura.otf */,
 				F7E3C1B62C208C9400DDD1CB /* YamahaGrand.sf2 */,
 			);
@@ -249,6 +258,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F70964502C1DDD5E00B3BEAD /* Assets.xcassets in Resources */,
+				F7CF01B82C89699600FD1312 /* help.rtf in Resources */,
+				F7CF01BA2C896AFD00FD1312 /* help.md in Resources */,
 				F70E79602C71F54500DDFEF7 /* Bravura.otf in Resources */,
 				F7E3C1B92C208C9400DDD1CB /* YamahaGrand.sf2 in Resources */,
 				F70964532C1DDD5E00B3BEAD /* Base in Resources */,
@@ -269,6 +280,7 @@
 				F7CE8BEE2C71AE0B0091A9B7 /* NoteLabel.swift in Sources */,
 				F70E79632C731BD100DDFEF7 /* LabeledControl.swift in Sources */,
 				F70964482C1DDD5C00B3BEAD /* ViewController.swift in Sources */,
+				F7CF01B62C85FDDA00FD1312 /* Help.swift in Sources */,
 				F70964442C1DDD5C00B3BEAD /* AppDelegate.swift in Sources */,
 				F7E3C1F82C21CF5000DDD1CB /* Keyboard.swift in Sources */,
 				F74A05C92C7A78BC003CDFBC /* SF2Parser.swift in Sources */,

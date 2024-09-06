@@ -42,13 +42,14 @@ class Keyboard: UIView {
     private var keys: [[Key]] = []
     private var keymap: Keymap = Keymap.searchBuiltinKeymap(UserDefaults.standard.string(forKey: "keymapName_String") ?? "Harmonic Table") ?? .empty {
         didSet {
-            print("didset keymap")
+//            print("didset keymap")
+            let label = Self.labelType(of: keymap, id: UserDefaults.standard.integer(forKey: "keyLabelStyle_Int"))
             if keymap === oldValue { return }
             stopAllNotes()
             for i in 0 ..< keys.count { for j in 0 ..< keys[i].count {
                 let note = keymap.note(i, j + Keyboard.LayoutRowOffs[i])
                 let color = keymap.color(i, j + Keyboard.LayoutRowOffs[i])
-                keys[i][j].assign(note: note, color: color, labelMapping: keymap.label.symbol) // TODO: add configuration
+                keys[i][j].assign(note: note, color: color, labelMapping: label)
             }}
         }
     }
@@ -59,12 +60,13 @@ class Keyboard: UIView {
     init(_ engine: AudioEngine) {
         audioEngine = engine
         
+        let label = Self.labelType(of: keymap, id: UserDefaults.standard.integer(forKey: "keyLabelStyle_Int"))
         for i in 0 ..< Keyboard.LayoutRowLengths.count {
             var row: [Key] = []
             for j in 0 ..< Keyboard.LayoutRowLengths[i] {
                 row.append(Key(note: keymap.note(i, j + Keyboard.LayoutRowOffs[i]),
                                color: keymap.color(i, j + Keyboard.LayoutRowOffs[i]),
-                               labelMapping: keymap.label.symbol))
+                               labelMapping: label))
             }
             keys.append(row)
         }
@@ -102,19 +104,19 @@ class Keyboard: UIView {
             self.lockButtonDisabled = value
         }
         Self.keyLabelStyleChangedNotif.registerOnAny { index in
-            switch index {
+            self.keys.forEach { $0.forEach { $0.assign(labelMapping: Self.labelType(of: self.keymap, id: index)) } }
+        }
+    }
+    static func labelType(of keymap: Keymap, id: Int) -> LabelMapping {
+        switch id {
             case 0: // Symbol
-                self.keys.forEach { $0.forEach { $0.assign(labelMapping: self.keymap.label.symbol) } }
-                break;
+                return keymap.label.symbol
             case 1: // Numeral
-                self.keys.forEach { $0.forEach { $0.assign(labelMapping: self.keymap.label.number) } }
-                break;
+                return keymap.label.number
             case 2: // None
-                self.keys.forEach { $0.forEach { $0.assign(labelMapping: NoteLabel.emptyMapping) } }
-                break;
+                return NoteLabel.emptyMapping
             default:
                 fatalError("Unregistered value sent to keyLabelStyleChanged notification")
-            }
         }
     }
     
@@ -175,11 +177,17 @@ class Keyboard: UIView {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !lockButton.locked { return }
-        for touch in touches { // beautiful logic
-            let touchedSet = getKeysAtLocation(touch.location(in: self), enableMulti: multiPressEnabled)
-            if touchedSet.isEmpty { continue }
-            touchedSet.forEach { pressKey($0) }
-            touchedKeys[touch] = touchedSet
+        for touch in touches {
+            let set = getKeysAtLocation(touch.location(in: self))
+            if set.isEmpty { continue }
+            set.forEach { key in
+                for (_, set) in touchedKeys {
+//                    if otherTouch === touch { continue }
+                    if set.contains(key) { return }
+                }
+                pressKey(key)
+            }
+            touchedKeys[touch] = set
         }
     }
     
@@ -187,7 +195,13 @@ class Keyboard: UIView {
         if !lockButton.locked { return }
         for touch in touches {
             guard let set = touchedKeys[touch] else { continue }
-            set.forEach { releaseKey($0) }
+            set.forEach { key in
+                for (otherTouch, set) in touchedKeys {
+                    if otherTouch === touch { continue }
+                    if set.contains(key) { return }
+                }
+                releaseKey(key)
+            }
             touchedKeys.removeValue(forKey: touch)
         }
     }
@@ -200,16 +214,20 @@ class Keyboard: UIView {
         if draggingEnabled && (lockButtonDisabled || lockButton.locked) {
             for touch in touches {
                 let oldSet = touchedKeys[touch]
-                let newSet = getKeysAtLocation(touch.location(in: self), enableMulti: multiPressEnabled)
-                oldSet?.forEach {
-                    if !newSet.contains($0) {
-                        releaseKey($0)
+                let newSet = getKeysAtLocation(touch.location(in: self))
+                oldSet?.forEach { key in
+                    for (otherTouch, set) in touchedKeys {
+                        if otherTouch === touch { continue }
+                        if set.contains(key) { return }
                     }
+                    if newSet.contains(key) { return }
+                    releaseKey(key)
                 }
-                newSet.forEach {
-                    if !(oldSet?.contains($0) ?? false) {
-                        pressKey($0)
+                newSet.forEach { key in
+                    for (_, set) in touchedKeys {
+                        if set.contains(key) { return }
                     }
+                    pressKey(key)
                 }
                 if newSet.isEmpty {
                     touchedKeys.removeValue(forKey: touch)
@@ -227,17 +245,17 @@ class Keyboard: UIView {
             UserDefaults.standard.set(bounds.origin.x, forKey: "keyboardPositionX_Double")
         }
         // TODO: add inertia
-        // TODO: when multiple fingers panning, the velocity is summed
+        // TODO: when multiple fingers panning, the speed is summed
     }
     
-    private func getKeysAtLocation(_ location: CGPoint, enableMulti multi: Bool) -> Set<Key> {
+    private func getKeysAtLocation(_ location: CGPoint) -> Set<Key> {
         var set = Set<Key>()
         var minDistSq = CGFloat.infinity
         
         for row in keys { for key in row {
             let distSq = CGPointDistanceSquared(location, key.frame.origin)
             if distSq > touchRadius*touchRadius*scale*scale { continue }
-            if multi {
+            if multiPressEnabled {
                 set.insert(key)
             } else if distSq < minDistSq {
                 minDistSq = distSq

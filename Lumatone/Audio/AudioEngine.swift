@@ -9,7 +9,7 @@ import AVFoundation
 
 class AudioEngine {
     // notification templates
-    static let pitchBendChangedNotif = TypedNotification<Float>(name: "pitchBendChanged")
+    static let pitchBendChangedNotif = TypedNotification<UInt16>(name: "pitchBendChanged")
 //    static let masterGainChangedNotif = TypedNotification<Float>(name: "masterGainChanged") // unused
     static let tuningChangedNotif = TypedNotification<Int>(name: "tuningChanged")
     static let presetIndexChangedNotif = TypedNotification<UInt16>(name: "presetIndexChanged")
@@ -17,11 +17,6 @@ class AudioEngine {
     // components
     private var engine = AVAudioEngine()
     var synths: [AVAudioUnitSampler] = []
-    
-    // audio
-    var pitchBend: Float = 0 {
-        didSet { synths.forEach { $0.globalTuning = pitchBend } }
-    }
     
     // setup
     init() {
@@ -42,13 +37,19 @@ class AudioEngine {
                 self.soundbankUrl = Self.UserDefaultsResolveSoundbankUrl()
             }
         }
+        NotificationCenter.default.addObserver(forName: .resetPresetIndex, object: nil, queue: nil) { _ in
+            self.presetIndex = (0, 0)
+        }
     }
     
     func setupEngine() {
         setupAudioSession()
+        
+        createSynth() // for 12edo
+        self.edo = Keymap.searchBuiltinKeymap(UserDefaults.standard.string(forKey: "keymapName_String") ?? "Harmonic Table")?.tuning ?? 12
+        
         //let hardwareFormat = engine.outputNode.outputFormat(forBus: 0)
         //engine.connect(engine.mainMixerNode, to: engine.outputNode, format: hardwareFormat)
-        createSynth() // for 12edo
         engine.prepare()
         do {
             try engine.start()
@@ -198,10 +199,12 @@ class AudioEngine {
         }
     }
     
-    // midi api
+    // audio [Multiple Synths Method]
+    var pitchBend: UInt16 = 0 {
+        didSet { synths.forEach { $0.sendPitchBend(pitchBend, onChannel: 0) } }
+    }
     
-    // multiple synths method
-    private var edo: Int = 12 {
+    private var edo: Int = -1 { // -1 should never be accessed
         didSet {
             guard edo > 0 else {
                 edo = oldValue
@@ -221,6 +224,7 @@ class AudioEngine {
             }
         }
     }
+    
     private func getFracNote(_ note: Int) -> Float { // in cents
         return Float(note)/Float(edo)*12.0 - round( Float(note)/Float(edo)*12.0 )
     }

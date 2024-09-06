@@ -64,46 +64,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource {
     typealias CellData = (title: String, control: UIControl)
     
     lazy var settingsData: [SectionData] = [
-        SectionData("Keyboard", [
-            
-            CellData("Use lock button", {
-                let control = UISwitch(frame: .zero, primaryAction: UIAction { action in
-                    let on = (action.sender as! UISwitch).isOn
-                    UserDefaults.standard.set(!on, forKey: "lockButtonDisabled_Bool")
-                    Keyboard.lockButtonChangedNotif.post(value: !on)
-                })
-                control.isOn = !UserDefaults.standard.bool(forKey: "lockButtonDisabled_Bool") // default enabled
-                return control
-            }()),
-            
-            CellData("Layout", {
-                let control = UISegmentedControl(frame: CGRectMake(0, 0, 200, 35), actions: [
-                    UIAction(title: "Lumatone") { _ in
-                        // todo
-                        UserDefaults.standard.set(0, forKey: "layoutIndex_Int")
-                    },
-                    UIAction(title: "InfHex") { _ in
-                        // todo
-                        UserDefaults.standard.set(1, forKey: "layoutIndex_Int")
-                    }
-                ])
-                control.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "layoutIndex_Int") // default 0
-                return control
-            }()),
-            
-            CellData("Key label", {
-                let control = UISegmentedControl(frame: CGRectMake(0, 0, 200, 35), actions: ["Symbol", "Numeral", "None"].enumerated().map { (i, title) in
-                    UIAction(title: title) { _ in
-                        Keyboard.keyLabelStyleChangedNotif.post(value: i)
-                        UserDefaults.standard.set(i, forKey: "keyLabelStyle_Int")
-                    }
-                })
-                control.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "keyLabelStyle_Int") // default 0
-                return control
-            }())
-            
-        ]),
-        
+    
         SectionData("Playing", [
             
             CellData("Multi-press", {
@@ -116,7 +77,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource {
                 return control
             }()),
             
-            CellData("Dragging play", {
+            CellData("Dragging mode", {
                 let control = UISwitch(frame: .zero, primaryAction: UIAction { action in
                     let on = (action.sender as! UISwitch).isOn
                     UserDefaults.standard.set(on, forKey: "draggingEnabled_Bool")
@@ -126,9 +87,60 @@ class SettingsViewController: UIViewController, UITableViewDataSource {
                 return control
             }())
             
+        ]),
+    
+        SectionData("Keyboard", [
+            
+            CellData("Use lock button", {
+                let control = UISwitch(frame: .zero, primaryAction: UIAction { action in
+                    let on = (action.sender as! UISwitch).isOn
+                    UserDefaults.standard.set(!on, forKey: "lockButtonDisabled_Bool")
+                    Keyboard.lockButtonChangedNotif.post(value: !on)
+                })
+                control.isOn = !UserDefaults.standard.bool(forKey: "lockButtonDisabled_Bool") // default enabled
+                return control
+            }()),
+            
+//            CellData("Layout", {
+//                let control = UISegmentedControl(frame: CGRectMake(0, 0, 200, 35), actions: [
+//                    UIAction(title: "Lumatone") { _ in
+//                        // todo
+//                        UserDefaults.standard.set(0, forKey: "layoutIndex_Int")
+//                    },
+//                    UIAction(title: "InfHex") { _ in
+//                        // todo
+//                        UserDefaults.standard.set(1, forKey: "layoutIndex_Int")
+//                    }
+//                ])
+//                control.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "layoutIndex_Int") // default 0
+//                return control
+//            }()),
+            
+            CellData("Key label type", {
+                let control = UISegmentedControl(frame: CGRectMake(0, 0, 200, 35), actions: ["Symbol", "Numeral", "None"].enumerated().map { (i, title) in
+                    UIAction(title: title) { _ in
+                        Keyboard.keyLabelStyleChangedNotif.post(value: i)
+                        UserDefaults.standard.set(i, forKey: "keyLabelStyle_Int")
+                    }
+                })
+                control.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "keyLabelStyle_Int") // default 0
+                return control
+            }()),
+            
+            CellData("Fullscreen keyboard padding", {
+                let control = UISlider(frame: CGRectMake(0, 0, 200, 35), primaryAction: UIAction {
+                    let value = ($0.sender as! UISlider).value
+                    ViewController.paddingChangedNotif.post(value: CGFloat(value))
+                    UserDefaults.standard.set(value, forKey: "keyboardPadding_Float")
+                })
+                control.minimumValue = 0
+                control.maximumValue = 1.4
+                control.setValue(UserDefaults.standard.object(forKey: "keyboardPadding_Float") as? Float ?? 0.7, animated: false)
+                return control
+            }())
+            
         ])
+        
     ]
-    
-    
     
 }

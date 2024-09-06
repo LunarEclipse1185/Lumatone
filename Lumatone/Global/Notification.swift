@@ -16,5 +16,6 @@ extension Notification.Name {
     static let showDocumentPicker = Notification.Name("showDocumentPicker")
     static let showSettings = Notification.Name("showSettings")
     static let showHelp = Notification.Name("showHelp")
+    static let resetPresetIndex = Notification.Name("resetPresetIndex")
     
 }

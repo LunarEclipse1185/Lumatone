@@ -40,27 +40,44 @@ class ControlPanel: UIView {
         let w = frame.width
         let h = frame.height
         
-        pitchBendControl.frame = CGRectMake(0.2 * h, 0.1 * h, 0.3 * h, 0.7 * h)
-        velocityControl.frame = CGRectMake(0.7 * h, 0.1 * h, 0.3 * h, 0.7 * h)
+        let slidersSpacing: CGFloat = max(40, 0.2 * h)
+        layoutH([pitchBendControl, velocityControl],
+                inRect: CGRectMake(0, 0.1 * h, 0.3 * h, 0.7 * h),
+                spacing: slidersSpacing,
+                elementWidth: 0.3 * h)
+//        pitchBendControl.frame = CGRectMake(0.2 * h, 0.1 * h, 0.3 * h, 0.7 * h)
+//        velocityControl.frame = CGRectMake(0.7 * h, 0.1 * h, 0.3 * h, 0.7 * h)
         
-        let pickersWidth = 1.1 * h
+        let pickersWidth: CGFloat = 30*7
         layoutV([soundfontChooserControl, presetPickerControl, keymapPickerControl],
                 inRect: CGRectMake(w / 2 - pickersWidth / 2, 0, pickersWidth, h),
-                elementHeight: 31)
-        let buttonsSideLen = 0.2 * h
-        layoutV([settingsButton, helpButton],
-                inRect: CGRectMake(w - 2 * buttonsSideLen, 0, buttonsSideLen, h),
-                elementHeight: buttonsSideLen)
+                elementHeight: 30)
         
-        handle.frame = CGRectMake(0.85 * w, h, 0.08 * w, 0.03 * w)
+        let buttonsSize: CGFloat = 40
+        layoutV([settingsButton, helpButton],
+                inRect: CGRectMake(w - 2 * buttonsSize, 0, buttonsSize, h),
+                elementHeight: buttonsSize)
+        
+        handle.frame = CGRectMake(0.9 * w, h - 1, 0.09 * w, 0.03 * w)
     }
     private func layoutV(_ views: [UIView], inRect rect: CGRect, spacing s_: CGFloat! = nil, elementHeight h_: CGFloat! = nil) {
         // provide at least 1 data for layout
+        // when both spacing and elementHeight is provided, rect.height is ignored
         guard s_ != nil || h_ != nil else { fatalError("layoutV invalid arguments") }
         let spacing = s_ ?? (rect.height - CGFloat(views.count) * h_) / CGFloat(views.count + 1)
         let height = h_ ?? (rect.height - CGFloat(views.count + 1) * s_) / CGFloat(views.count)
         for (i, view) in views.enumerated() {
             view.frame = CGRectMake(rect.minX, CGFloat(i) * height + CGFloat(i+1) * spacing, rect.width, height)
+        }
+    }
+    private func layoutH(_ views: [UIView], inRect rect: CGRect, spacing s_: CGFloat! = nil, elementWidth w_: CGFloat! = nil) {
+        // provide at least 1 data for layout
+        // when both spacing and elementWidth is provided, rect.width is ignored
+        guard s_ != nil || w_ != nil else { fatalError("layoutH invalid arguments") }
+        let spacing = s_ ?? (rect.width - CGFloat(views.count) * w_) / CGFloat(views.count + 1)
+        let width = w_ ?? (rect.width - CGFloat(views.count + 1) * s_) / CGFloat(views.count)
+        for (i, view) in views.enumerated() {
+            view.frame = CGRectMake(CGFloat(i) * width + CGFloat(i+1) * spacing, rect.minY, width, rect.height)
         }
     }
     
@@ -70,9 +87,9 @@ class ControlPanel: UIView {
     
 //    private lazy var multiPressToggleControl = LabeledControl("Multi-Press", control: multiPressToggle, labelPosition: .left)
     
-    private lazy var soundfontChooserControl = LabeledControl("Soundfont:   ", control: soundfontChooser, labelPosition: .left)
-    private lazy var presetPickerControl = LabeledControl("Preset:      ", control: presetPicker, labelPosition: .left)
-    private lazy var keymapPickerControl = LabeledControl("Keymap:      ", control: keymapPicker, labelPosition: .left)
+    private lazy var soundfontChooserControl = LabeledControl("Soundfont:    ", control: soundfontChooser, labelPosition: .left)
+    private lazy var presetPickerControl = LabeledControl("Preset:    ", control: presetPicker, labelPosition: .left)
+    private lazy var keymapPickerControl = LabeledControl("Keymap:    ", control: keymapPicker, labelPosition: .left)
 //    private lazy var layoutPickerControl = LabeledControl("Layout:      ", control: layoutPicker, labelPosition: .left)
     
     // MARK: navigator buttons
@@ -156,7 +173,14 @@ class ControlPanel: UIView {
     private lazy var presetPicker = {
         let picker = UIButton(configuration: .bordered())
         picker.menu = generatePresetMenu()
-        (picker.menu?.children[UserDefaults.standard.integer(forKey: "presetMenuIndex_Int")] as! UIAction).state = .on
+        var initIndex = UserDefaults.standard.integer(forKey: "presetMenuIndex_Int")
+        if initIndex > picker.menu?.children.count ?? 0 {
+            initIndex = 0
+            UserDefaults.standard.set(0, forKey: "presetIndex_Int")
+            UserDefaults.standard.set(0, forKey: "presetMenuIndex_Int")
+            NotificationCenter.default.post(name: .resetPresetIndex, object: self)
+        }
+        (picker.menu?.children[initIndex] as! UIAction).state = .on
         picker.setTitleColor(.white, for: .highlighted)
         picker.setTitleColor(.white, for: .normal)
         picker.showsMenuAsPrimaryAction = true
@@ -212,9 +236,9 @@ class ControlPanel: UIView {
     private lazy var pitchBendSlider = {
         let pbs = UISlider()
         pbs.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
-        pbs.minimumValue = -200.0 // cents
-        pbs.maximumValue = 200.0
-        pbs.setValue(0, animated: false)
+        pbs.minimumValue = 0
+        pbs.maximumValue = 16383
+        pbs.setValue(8192, animated: false)
         pbs.addTarget(self, action: #selector(sendPitchBend), for: .valueChanged)
         pbs.addTarget(self, action: #selector(elasticAnimation), for: .touchUpInside)
         pbs.addTarget(self, action: #selector(elasticAnimation), for: .touchUpOutside)
@@ -223,7 +247,7 @@ class ControlPanel: UIView {
         return pbs
     }()
     @objc private func sendPitchBend() {
-        AudioEngine.pitchBendChangedNotif.post(value: pitchBendSlider.value)
+        AudioEngine.pitchBendChangedNotif.post(value: UInt16(pitchBendSlider.value))
     }
     @objc private func cancelAnimation() {
         timer?.invalidate()

@@ -17,7 +17,7 @@ class LabeledControl: UIView {
     init(_ name: String, control: UIControl, labelPosition position: LabeledControlConfiguration) {
         self.label = UILabel()
         label.text = name
-        label.font = .systemFont(ofSize: 18)
+        label.font = .systemFont(ofSize: UIFont.systemFontSize)
         label.textColor = .lightGray
         label.textAlignment = .center
         self.control = control
@@ -40,7 +40,7 @@ class LabeledControl: UIView {
             label.frame.origin.y = frame.height / 2 - label.intrinsicContentSize.height / 2
         }
         
-        let padding: CGFloat = 5.0
+        let padding = UIFont.systemFontSize * 0.2
         switch position {
         case .bottom:
             label.frame.origin.y = frame.height + padding

@@ -45,7 +45,7 @@ class SF2Parser {
         var data = Data()
         for (b, p, n) in names {
             data.append(contentsOf: [b, p])
-            data.append(contentsOf: n.cString(using: .ascii)!.map { UInt8($0) })
+            data.append(contentsOf: n.cString(using: .ascii)!.map(UInt8.init))
             data.append(contentsOf: [UInt8](repeating: 0, count: 20 - n.count - 1))
         }
         return data

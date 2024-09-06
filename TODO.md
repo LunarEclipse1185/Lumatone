@@ -105,7 +105,7 @@ Control panel:
 +## bugs:
 +. lockbutton note do not end
 +. set keymap note do not end
-3. 31edo tuning do not apply - how to recreate?
+## 31edo tuning do not apply - when pitchbend changed
 4. switch preset app freeze - how to recreate?
 
 
@@ -221,8 +221,28 @@ the percentage the control takes up
 ## record midi and cord shape
 
 
-## adaptive layout in controlPanel and settings panel
-
 
 ## some notifications still depend on userDefault access to deliver information
 which is bad design and (?) costly
+
+
++# 1.0 release preparation
+ + layout ui for different ratios
+ + write help section
+ + handle ui design
+ + new setting: padding
+
+
+- add lots of documentations
+
++ switch keymap keylabel type not applying
+
++ drag play note released too early
+
+- keyboard add new member: keyLabelType
+
+## re design touchedKeys data structure
+
++# memory leak
+
+## help section paragraph spacing logic not ideal
